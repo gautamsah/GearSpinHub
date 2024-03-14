@@ -1,0 +1,12 @@
+.imgBox{
+    width: 100%;
+}
+.container{
+    height: 90vh;
+}
+.title{
+    font-size: 48px;
+}
+.subtitle{
+    font-size: 20px;
+}

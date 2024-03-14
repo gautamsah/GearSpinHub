@@ -1,0 +1,18 @@
+.default-button {
+    width: 100%;
+}
+
+.register-button {
+    width: 100%;
+    background-color: red;
+    color: white;
+    border: 1px solid rgb(255, 0, 0);
+    border-radius: 3px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.register-button:hover {
+    background-color: rgb(200, 0, 0);
+    border: 1px solid rgb(200, 0, 0);
+}

@@ -1,0 +1,49 @@
+<template>
+    <lightning-layout class="container" horizontal-align="center" vertical-align="center">
+        <lightning-layout-item size="8">
+            <lightning-layout>
+                <lightning-layout-item class="imgBox" size="12">
+                    <img src={image_url}
+                        alt="register" />
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+            <!-- <lightning-layout-item size="2">
+
+            </lightning-layout-item> -->
+        <lightning-layout-item size="4">
+            <lightning-layout multiple-rows="true" horizontal-align="center" class="slds-var-p-around_x-large">
+                <lightning-layout-item size="12" class="slds-var-m-bottom_medium title">
+                    Create an Account
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class="slds-var-m-bottom_small subtitle">
+                    Enter your details below
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <c-gsh-input input-label="First Name" input-type="text" field-name="first_name"
+                        input-placeholder="Enter Your First Name" onchangeinput={recieveData}
+                        variant='register'></c-gsh-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <c-gsh-input input-label="Last Name" input-type="text" field-name="last_name"
+                        input-placeholder="Enter Your Last Name" onchangeinput={recieveData}
+                        variant='register'></c-gsh-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <c-gsh-input input-label="Email" input-type="email" field-name="email_id"
+                        input-placeholder="Enter Your Email Id" onchangeinput={recieveData}
+                        variant='register'></c-gsh-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <c-gsh-button button-label="SIGN UP" button-name="sign_up" onclickbutton={recieveClickedData}
+                        variant='register'></c-gsh-button>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-m-vertical_small">
+                    Already have account?
+                    <a href="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/login/">Log In</a>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+
+</template>
