@@ -1,6 +1,7 @@
 import { LightningElement } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import registration_img from "@salesforce/resourceUrl/registration_img";
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import portalUserRegistration from '@salesforce/apex/gshPortalUserRegisteration.registerUser';
 
 export default class GshRegisterUser extends NavigationMixin(LightningElement) {
@@ -29,7 +30,8 @@ export default class GshRegisterUser extends NavigationMixin(LightningElement) {
         //this.isClicked=event.detail.isClicked;
 
         if (!this.isFormValid()) {
-            this.showToast('Error', 'Please fill out all fields', 'error');
+            console.log('inside form');
+            const event2 = new ShowToastEvent({ title: 'Error', message: 'Please fill out all fields', variant: 'error' });
             return;
         }
 
@@ -54,21 +56,22 @@ export default class GshRegisterUser extends NavigationMixin(LightningElement) {
                         });
                         this.dispatchEvent(event1);
                         this.resetRegisterationData();
-                        this[NavigationMixin.Navigate]({
-                            type: 'comm__namedPage',
-                            attributes: {
-                                name: 'Login'
-                            },
-                        })
+                        // this[NavigationMixin.Navigate]({
+                        //     type: 'comm__namedPage',
+                        //     attributes: {
+                        //         name: 'Login'
+                        //     },
+                        // })
                     }
                     else if (response === 'Registeration Failed' || response === 'Error occured while Registration!') {
                         console.log(response);
-                        const event2 = new ShowToastEvent({
-                            title: 'Failed!',
-                            message: 'Registeration Failed',
-                            variant: 'error'
-                        });
-                        this.dispatchEvent(event2);
+                        // const event2 = new ShowToastEvent({
+                        //     title: 'Failed!',
+                        //     message: 'Registeration Failed',
+                        //     variant: 'error'
+                        // });
+                        // this.dispatchEvent(event2);
+                        showToastEvent('Failed!', 'Registeration Failed', 'error');
                         this.resetRegisterationData();
 
                     }
@@ -76,7 +79,7 @@ export default class GshRegisterUser extends NavigationMixin(LightningElement) {
                         console.log(response);
                         const event4 = new ShowToastEvent({
                             title: 'Error!',
-                            message: 'Please fill all the fields',
+                            message: 'Email Already Exists',
                             variant: 'error'
                         });
                         this.dispatchEvent(event4);
@@ -93,10 +96,16 @@ export default class GshRegisterUser extends NavigationMixin(LightningElement) {
 
 
     isFormValid() {
-        return this.firstName.trim() !== '' && this.lastName.trim() !== '' && this.emailId.trim() !== '';
+        if ((this.firstName != '' || this.firstName != null) && (this.lastName != '' || this.lastName != null) && (this.emailId != '' || this.emailId != null)) {
+            console.log(this.firstName + this.lastName + this.emailId);
+            this.firstName = this.firstName.trim();
+            this.lastName = this.lastName.trim();
+            this.emailId = this.emailId.trim();
+            console.log(this.firstName + this.lastName + this.emailId);
+            return true;
+        }
     }
-
-    ShowToastEvent(title, message, variant) {
+    showToastEvent(title, message, variant) {
         const toastEvent = new ShowToastEvent({
             title: title,
             message: message,
@@ -105,18 +114,18 @@ export default class GshRegisterUser extends NavigationMixin(LightningElement) {
         this.dispatchEvent(toastEvent);
     }
 
-    showMessage(response,variants){
-        const event = new ShowToastEvent({
-            title: 'Success!',
-            message: response,
-            variant: variants
-            });
-            this.dispatchEvent(event);
-        this.firstName = '';
-        this.lastName = '';
-        this.email = '';
-    }
-    
+    // showMessage(response,variants){
+    //     const event = new ShowToastEvent({
+    //         title: 'Success!',
+    //         message: response,
+    //         variant: variants
+    //         });
+    //         this.dispatchEvent(event);
+    //     this.firstName = '';
+    //     this.lastName = '';
+    //     this.email = '';
+    // }
+
     resetRegisterationData() {
         this.firstName = '';
         this.lastName = '';
