@@ -1,0 +1,23 @@
+
+.ll-main{
+    position: relative;
+}
+
+.ll_divbox{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+.bg {
+    z-index: -1;
+    filter: opacity(0.5) brightness(0.5) contrast(0.5);
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.icon-img {
+    min-width: 20px;
+}

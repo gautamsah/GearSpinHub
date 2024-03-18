@@ -1,0 +1,14 @@
+<template>
+    <div lwc:if={isLoaded} class="spinner">
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+    <lightning-layout multiple-rows="true" class="slds-gutters_x-small">
+        <lightning-layout-item size="4" key={course.Id} class="slds-col slds-var-m-bottom_large" for:each={allCourses}
+            for:item="course">
+            <c-cc-course-card course-id={course.Id} course-duration={course.Course_Duration__c}
+                course-name={course.Course_Name__c} course-description={course.Course_Description__c}
+                course-category={course.Course_Category__c} course-img={course.Course_Image_Url__c}
+                onenrolled={handleCourses}></c-cc-course-card>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
