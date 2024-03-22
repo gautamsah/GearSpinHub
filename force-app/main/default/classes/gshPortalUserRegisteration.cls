@@ -4,13 +4,13 @@
 *   @Author Name 	:	Gautam Sah (Horizontal Digital)
 */
 public without sharing class gshPortalUserRegisteration {
-    // @AuraEnabled(cacheable=true)
-    @AuraEnabled(cacheable=false)
-    // public static String register(String firstName, String lastName, String email){
-    //     system.debug(firstName + lastName + email);
-    //     return firstName + lastName + email;
-    // }
-
+    // @AuraEnabled(cacheable=false)
+    // public static String registerUser(String firstName, String lastName, String email){
+        //     system.debug(firstName + lastName + email);
+        //     return firstName + lastName + email;
+        // }
+        
+    @AuraEnabled
     public static String registerUser(String firstName, String lastName, String email){
         Savepoint rollbackStartPoint = Database.setSavepoint();
         try {
@@ -26,7 +26,10 @@ public without sharing class gshPortalUserRegisteration {
                     Profile profile = [SELECT Id, Name FROM Profile WHERE Name = 'GSH Community User'];
                     Id profileId = profile.Id;
                     System.debug('Profile Id : '+profileId);
-                    String response = createCommUser(firstName , lastName , email , contactId, profileId);
+                    // String response = createCommUser(firstName , lastName , email , contactId, profileId);
+
+                    String response = 'Registered Successfully';
+
                     System.debug('Response : '+response);
                     if(response == 'Registeration Failed'){
                         Database.rollback(rollbackStartPoint);
@@ -47,8 +50,8 @@ public without sharing class gshPortalUserRegisteration {
                 return 'Contact Id is empty or null';
             }
         }
-    catch(Exception ex){
-        
+        catch(Exception ex){
+        Database.rollback(rollbackStartPoint);
         System.debug('Rollback Called');
         System.debug('Error occured while Registration!!!'+ex.getMessage()+' @@ '+ex.getStackTraceString());
         return 'Error occured while Registration!';

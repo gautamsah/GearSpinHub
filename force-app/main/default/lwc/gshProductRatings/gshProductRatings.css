@@ -1,0 +1,22 @@
+/* reviewComponent.css */
+.container {
+    font-family: Arial, sans-serif;
+}
+
+.review-item {
+    margin-bottom: 20px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.rating lightning-icon {
+    color: orange;
+    margin-right: 5px;
+}
+
+.new-review {
+    margin-top: 20px;
+}

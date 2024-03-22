@@ -1,0 +1,20 @@
+<!-- <nav class="category-nav">
+        <ul>
+            <template for:each={categories} for:item="category">
+                <li key={category}>
+                    <a onclick={onClickHandler} data-value={category}>{category}</a>
+                </li>
+            </template>
+        </ul>
+    </nav> -->
+<template>
+    <lightning-layout class="category-nav">
+        <lightning-layout-item class="slds-text-title_caps slds-var-p-horizontal_large center-align">
+            Categories To Explore:
+        </lightning-layout-item>
+        <lightning-layout-item for:each={categories} for:item="category" key={category} class="slds-p-around_small">
+            <div onclick={onClickHandler} data-value={category} class="slds-p-around_small category_button">{category}
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

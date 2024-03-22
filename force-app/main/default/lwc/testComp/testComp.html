@@ -1,4 +1,53 @@
+<!-- <template>
+    helloworld
+</template> -->
 <template>
-    <h1 style="color:black">44442</h1>
-    <h2>Hello World</h2>
+    <div class="product-detail-container">
+        <div class="product-detail-image">
+            <!-- Product Image -->
+            <img src="product-image-url" alt="Product Image">
+        </div>
+        <div class="product-detail-info">
+            <!-- Product Title -->
+            <h2 class="product-title">Product Title</h2>
+            <!-- Product Rating -->
+            <div class="product-rating">
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+                <span class="rating-star">★</span>
+                <span class="rating-star">☆</span>
+            </div>
+            <!-- Product Price -->
+            <p class="product-price">$99.99</p>
+            <!-- Product Description -->
+            <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et turpis in nunc mollis placerat.</p>
+            <!-- Quantity Selector -->
+            <div class="quantity-selector">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1">
+            </div>
+            <!-- Add to Cart Button -->
+            <button class="add-to-cart-btn">Add to Cart</button>
+            <!-- Available Sizes -->
+            <div class="available-sizes">
+                <label for="sizes">Available Sizes:</label>
+                <select id="sizes" name="sizes">
+                    <option value="s">Small</option>
+                    <option value="m">Medium</option>
+                    <option value="l">Large</option>
+                </select>
+            </div>
+            <!-- Available Colors -->
+            <div class="available-colors">
+                <label for="colors">Available Colors:</label>
+                <select id="colors" name="colors">
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
 </template>

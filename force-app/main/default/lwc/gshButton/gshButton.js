@@ -6,19 +6,27 @@ export default class GshButton extends LightningElement {
     @api buttonName;
     @api variant;
     isClicked;
-    mouseClick(event) {
-        this.isClicked = true;
-        console.log('Button in child component clicked is ' + this.isClicked);
+    mouseClick() {
+        this.isClicked=true;
         this.dispatchEvent(
             new CustomEvent("clickbutton", {
-                detail: {
-                    isClicked:this.isClicked
-                }
+                detail:{isClicked: this.isClicked}
             })
         );
     }
 
     get buttonStyle(){
-        return this.variant=='register' ? 'register-button' : 'default-button';
+        if(this.variant=='register'){
+            return 'register-button';
+        }
+        else if(this.variant=='addtocart'){
+            return 'addtocart-button';
+        }
+        else if(this.variant=='buynow'){
+            return 'buynow-button';
+        }
+        else{
+            return 'default-button';
+        }
     }
 }

@@ -1,0 +1,26 @@
+.product {
+    display: flex;
+    /* Add any additional styling for the product container */
+}
+
+.product-image {
+    width: 300px;
+    /* Customize image size and styling */
+}
+
+.sale {
+    position: absolute;
+    background-color: red;
+    color: white;
+    /* Style the sale label */
+}
+
+.product-info {
+    margin-left: 20px;
+    /* Adjust spacing and layout for product information */
+}
+
+.actions input[type=number] {
+    width: 50px;
+    /* Style the quantity input field */
+}

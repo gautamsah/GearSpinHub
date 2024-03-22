@@ -1,4 +1,49 @@
-.card_Wrapper{
-    border-radius: 25px;
-    background: #ffd500;
+.card_wrapper {
+    border-radius: 8px;
+    background: rgb(240, 240, 240);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add box-shadow transition */
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); /* Add shadow */
+    box-shadow: 0 2px 7px #dfdfdf;
+}
+.card_wrapper:hover {
+    transform: perspective(1000px) rotateY(0deg) translateZ(20px);
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+    box-shadow: 0 2px 10px #dfdfdf;
+}
+.card_img {
+    border-radius: 8px 8px 0 0;
+}
+
+.card_img_container {
+    border-radius: 8px 8px 0 0;
+    transition: transform 0.3s ease;
+    width: 100%;
+    background: white;
+    padding: 0 24px;
+    overflow: hidden; /* Hide any overflowing content */
+}
+
+.card_img_container:hover {
+    transform: scaleX(-1);
+    /* transform: perspective(1000px) rotateY(10deg); */
+}
+
+.pr_category {
+    /* border: 1px solid blue; */
+    color: #878787;
+    font-weight: bold;
+}
+.pr_description{
+    border-bottom: 1px solid  #cdcdcd;
+}
+.pr_rating{
+    align-items: end;
+}
+.pr_price{
+    color: #fbb72c;
+    font-weight: bold;
+    font-size: 20px;
+}
+.pr_name{
+    font-family: ModernEraBold, Arial, Helvetica, sans-serif ;
 }
