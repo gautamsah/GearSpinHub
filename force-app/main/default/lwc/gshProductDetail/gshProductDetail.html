@@ -1,14 +1,17 @@
 <template>
     <lightning-layout>
-        <lightning-layout-item size="12">
-            <lightning-breadcrumbs>
-                <lightning-breadcrumb class="breadcrumbs-main" label="Home" href="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/">
-                </lightning-breadcrumb>
-                <lightning-breadcrumb class="breadcrumbs-main" label="All Products" href="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/all-products">
-                </lightning-breadcrumb>
-                <lightning-breadcrumb class="breadcrumbs-main" label={productCategory} href="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/all-products">
-                </lightning-breadcrumb>
-            </lightning-breadcrumbs>
+        <lightning-layout-item size="12" class="banner-class">
+            <div>
+                <img src="https://raw.githubusercontent.com/gautamsah/GearSpinHub/main/resources/pr_detail_banner.jpg"
+                    height="200px" class="banner-bg" alt="">
+            </div>
+            <div class="breadcrumbs">
+                <a href="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/">Home</a>
+                <span class="separator">/</span>
+                <a href="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/all-products">Products</a>
+                <span class="separator">/</span>
+                <span class="current-page">{productName}</span>
+            </div>
         </lightning-layout-item>
     </lightning-layout>
     <!-- <lightning-layout class="slds-gutters_x-small wrapper" multiple-rows=""> -->
@@ -21,14 +24,16 @@
             <img src={imgUrl} alt="Product Image" style={imageStyle}>
         </lightning-layout-item>
         <lightning-layout-item size="6">
-            <lightning-layout class="product-info" multiple-rows="true" vertical-align="center" horizontal-align="spread">
+            <lightning-layout class="product-info" multiple-rows="true" vertical-align="center"
+                horizontal-align="spread">
                 <lightning-layout-item size="12" class="product-title">{productName}
                     {textContent}
                 </lightning-layout-item>
                 <lightning-layout-item size="12">
                     <lightning-layout horizontal-align="spread">
                         <lightning-layout-item class="product-category">
-                            <a class="product-category-a" href="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/all-products">{productCategory}</a>
+                            <a class="product-category-a"
+                                href="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/all-products">{productCategory}</a>
                         </lightning-layout-item>
                         <lightning-layout-item class="product-rating">
                             <svg if:true={star1} width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -100,13 +105,13 @@
                     {productDetailDesc}
                 </lightning-layout-item>
                 <lightning-layout-item size="12" class="product-price">₹{productPrice}</lightning-layout-item>
-                <lightning-layout-item size="12" class="slds-var-m-bottom_small color-selector">
-                        <div class="colors-heading">Available Colors: </div>
-                        <div class="color-dot red" data-color="red" onclick={handleColorClick}></div>
-                        <div class="color-dot blue" data-color="blue" onclick={handleColorClick}></div>
-                        <div class="color-dot green" data-color="green" onclick={handleColorClick}></div>
+                <lightning-layout-item size="12" class="slds-var-m-bottom_medium color-selector">
+                    <div class="colors-heading">Available Colors: </div>
+                    <div class="color-dot red" data-color="red" onclick={handleColorClick}></div>
+                    <div class="color-dot blue" data-color="blue" onclick={handleColorClick}></div>
+                    <div class="color-dot green" data-color="green" onclick={handleColorClick}></div>
                 </lightning-layout-item>
-                <lightning-layout-item size="12" class="slds-var-m-bottom_small">
+                <lightning-layout-item size="12" class="slds-var-m-bottom_medium">
                     <div class="size-heading">Available Sizes: </div>
                     <select class="size-selector" onchange={handleSelectChange}>
                         <option value="none">-- Select --</option>
@@ -120,15 +125,11 @@
                     <div class="slds-col quantity-wrapper">
                         <div class="arrow-down" data-content="-" onclick={decreaseQuantity}></div>
                         <input type="number" class="product-quantity" value={productQuantity} min="0"
-                        oninput={handleQuantityChange} onkeyup={validateQuantity}>
+                            oninput={handleQuantityChange} onkeyup={validateQuantity}>
                         <div class="arrow-up" data-content="+" onclick={increaseQuantity}></div>
                     </div>
-                    <c-gsh-button class="slds-col" button-label="Add to Cart" button-name="add_to_cart" onclickbutton={recieveClickedData}
-                        variant='addtocart'></c-gsh-button>
-                </lightning-layout-item>
-                <lightning-layout-item size="12">
-                    <c-gsh-button button-label="Buy Now" button-name="buy_now" onclickbutton={recieveClickedData}
-                    variant='buynow'></c-gsh-button>
+                    <c-gsh-button class="slds-col" button-label="Add to Cart" button-name="add_to_cart"
+                        onclickbutton={receivedCartClick} variant='addtocart'></c-gsh-button>
                 </lightning-layout-item>
             </lightning-layout>
         </lightning-layout-item>

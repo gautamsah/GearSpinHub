@@ -57,4 +57,18 @@ public class gshAllProducts {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+    @AuraEnabled
+    public static List<Rating__c> getAllRatings(String productId){
+        try {
+            // List<Rating__c> ratingRecords = new List<Rating__c>();
+            // for (Rating__c rcc : ratingRecords) {
+            //     RatingDate=(rcc.CreatedDate).date().format();
+            //     System.debug('date=' + (System.now()).date().format());
+            // }
+            return [SELECT ID,Product__c,Customer_Name__c,Rating_Date__c,Name,Review__c,Stars__c FROM Rating__c WHERE Product__c=:productId];
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }

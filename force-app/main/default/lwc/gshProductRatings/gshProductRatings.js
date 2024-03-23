@@ -1,6 +1,7 @@
 import { LightningElement, wire, track } from 'lwc';
 import { subscribe, MessageContext } from 'lightning/messageService';
 import DATA_MESSAGE_CHANNEL from '@salesforce/messageChannel/MyMessageChannel__c';
+import getAllRatings from '@salesforce/apex/gshAllProducts.getAllRatings';
 
 export default class GshProductRatings extends LightningElement {
     @track rating = 1;

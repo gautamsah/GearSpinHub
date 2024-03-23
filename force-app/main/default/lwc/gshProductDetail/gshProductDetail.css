@@ -1,24 +1,52 @@
 /* .image-container{
     width: 100%;
 } */
-.breadcrumbs-main {
-    color: #333; /* Change the color of the main breadcrumbs */
-    color: red;
-    font-weight: bold; /* Make the font weight bold */
-    text-decoration: none;
-    margin-right: 10px; /* Add some right margin between breadcrumbs */
-    font-size: 20px;
+.banner-bg {
+    height: 147px;
+    z-index: -1;
+    width: 100%;
+    object-fit: cover;
 }
 
-/* Optional: Hover effect */
-.breadcrumbs-main:hover{
-    text-decoration: underline;
+.banner-class {
+    position: relative;
+    ;
 }
+
+.breadcrumbs {
+    font-family: Arial, sans-serif;
+    font-size: 28px;
+    position: absolute;
+    top: 70px;
+    left: 63px;
+}
+
+.breadcrumbs a {
+    color: red;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumbs a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.separator {
+    margin: 0 5px;
+    color: #999;
+}
+
+.current-page {
+    color: white;
+    font-weight: bold;
+}
+
 
 .wrapper {
     padding: 0;
     width: 100%;
-    font-family: ModernEraBold ,Arial, sans-serif;
+    font-family: ModernEraBold, Arial, sans-serif;
     /* background-color: #f0f0f0; */
     /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
     border-radius: 5px;
@@ -45,16 +73,16 @@
 }
 
 .product-title {
-    font-size: 34px;
-    margin-bottom: 10px;
+    font-size: 40px;
+    margin-bottom: 15px;
 }
 
 .product-detail {
     font-size: 16px;
-    margin-top: 12px;
+    margin: 20px 0 15px 0;
 }
 
-.product-rating{
+.product-rating {
     display: flex;
     align-items: center;
     font-size: 20px;
@@ -63,10 +91,11 @@
 .product-price {
     font-size: 30px;
     font-weight: bold;
-    /* margin-bottom: 20px; */
+    margin-bottom: 10px;
     color: #fbb72c;
 }
-.product-category{
+
+.product-category {
     background-color: rgb(255, 131, 131);
     border: 1px solid rgb(255, 131, 131);
     cursor: pointer;
@@ -76,12 +105,14 @@
     padding: 5px 24px;
     transition: all 0.3s;
 }
-.product-category:hover{
+
+.product-category:hover {
     background-color: rgb(255, 1, 1);
     border: 1px solid rgb(255, 1, 1);
     color: white;
 }
-.product-category-a{
+
+.product-category-a {
     text-decoration: none;
     color: white;
 }
@@ -90,19 +121,27 @@
 .quantity-wrapper {
     position: relative;
     display: flex;
-    align-items: center; /* Center vertically */
+    align-items: center;
+    /* Center vertically */
     /* justify-content: space-between; */
     margin: 0px 3px 0px 0px;
 }
 
 .product-quantity {
-    width: 80px; /* Adjust width as needed */
-    height: 36px; /* Adjust height as needed */
-    padding: 8px; /* Adjust padding as needed */
-    border: 1px solid #ccc; /* Add border */
-    border-radius: 4px; /* Add border-radius */
-    box-sizing: border-box; /* Ensure padding and border are included in the width */
-    text-align: center; /* Center text horizontally */
+    width: 80px;
+    /* Adjust width as needed */
+    height: 36px;
+    /* Adjust height as needed */
+    padding: 8px;
+    /* Adjust padding as needed */
+    border: 1px solid #ccc;
+    /* Add border */
+    border-radius: 4px;
+    /* Add border-radius */
+    box-sizing: border-box;
+    /* Ensure padding and border are included in the width */
+    text-align: center;
+    /* Center text horizontally */
     margin: 0 3px;
 }
 
@@ -114,27 +153,35 @@
 .arrow-up,
 .arrow-down {
     width: 36px;
-    height: 36px; /* Set height to 100% to match input field height */
-    background-color: #ccc; /* Arrow background color */
+    height: 36px;
+    /* Set height to 100% to match input field height */
+    background-color: #ccc;
+    /* Arrow background color */
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 4px; /* Add border-radius */
+    border-radius: 4px;
+    /* Add border-radius */
 }
 
 .arrow-up::before,
 .arrow-down::before {
-    content: attr(data-content); /* Use content attribute to display + or - */
-    font-size: 16px; /* Adjust font size as needed */
-    font-weight: bold; /* Make the symbol bold */
-    color: #333; /* Arrow color */
+    content: attr(data-content);
+    /* Use content attribute to display + or - */
+    font-size: 16px;
+    /* Adjust font size as needed */
+    font-weight: bold;
+    /* Make the symbol bold */
+    color: #333;
+    /* Arrow color */
 }
 
 /* Hover styles for arrows */
 .arrow-up:hover,
 .arrow-down:hover {
-    background-color: #ddd; /* Lighter background color on hover */
+    background-color: #ddd;
+    /* Lighter background color on hover */
 }
 
 /* Hide default number input arrows */
@@ -151,9 +198,10 @@
     align-items: center;
 }
 
-.colors-heading{
+.colors-heading {
     font-size: 22px;
 }
+
 .color-dot {
     width: 25px;
     height: 25px;
@@ -183,30 +231,40 @@
 
 
 /* Style the select element */
-.size-heading{
+.size-heading {
     font-size: 22px;
     display: inline;
 }
 
 .size-selector {
-    width: 125px; /* Set the width to 100% of its container */
-    padding: 8px; /* Add padding */
-    border: 1px solid #ccc; /* Add border */
-    border-radius: 4px; /* Add border radius */
-    font-size: 16px; /* Set font size */
-    cursor: pointer; /* Set cursor to pointer */
-    box-sizing: border-box; /* Include padding and border in the width */
+    width: 125px;
+    /* Set the width to 100% of its container */
+    padding: 8px;
+    /* Add padding */
+    border: 1px solid #ccc;
+    /* Add border */
+    border-radius: 4px;
+    /* Add border radius */
+    font-size: 16px;
+    /* Set font size */
+    cursor: pointer;
+    /* Set cursor to pointer */
+    box-sizing: border-box;
+    /* Include padding and border in the width */
 }
 
 /* Style the options within the select element */
 .size-selector option {
-    padding: 8px; /* Add padding */
+    padding: 8px;
+    /* Add padding */
 }
 
 /* Style the select element when it's focused */
 .size-selector:focus {
-    outline: none; /* Remove default focus outline */
-    border-color: #0070d2; /* Change border color when focused */
-    box-shadow: 0 0 3px #0070d2; /* Add box shadow when focused */
+    outline: none;
+    /* Remove default focus outline */
+    border-color: #0070d2;
+    /* Change border color when focused */
+    box-shadow: 0 0 3px #0070d2;
+    /* Add box shadow when focused */
 }
-
