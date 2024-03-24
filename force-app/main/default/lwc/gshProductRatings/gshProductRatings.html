@@ -1,23 +1,34 @@
-<!-- reviewComponent.html -->
 <template>
-    <div class="container">
-        <h2>Product Reviews</h2>
-        <!-- Display existing reviews -->
-        <template for:each={reviews} for:item="review">
-            <div key={review.id} class="review-item">
-                <div class="rating">
-                    <lightning-icon icon-name="utility:favorite" size="small"></lightning-icon>
-                    <span>{review.rating}</span>
-                </div>
-                <div class="comment">{review.comment}</div>
-            </div>
-        </template>
-        
-        <!-- Add new review -->
-        <div class="new-review">
-            <lightning-input label="Rating" type="number" min="1" max="5" step="1" value={rating} onchange={handleRatingChange}></lightning-input>
-            <lightning-textarea label="Comment" value={comment} onchange={handleCommentChange}></lightning-textarea>
-            <lightning-button label="Submit Review" onclick={handleSubmitReview}></lightning-button>
-        </div>
-    </div>
+    <!-- <div lwc:if={isLoaded}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div> -->
+    <lightning-layout vertical-align="center">
+        <lightning-layout-item class="slds-text-title_caps slds-var-m-horizontal_large heading">
+            Reviews and Ratings
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item class="scrollable-section">
+            <lightning-layout multiple-rows="true" for:each={allReviews} for:item="review" key={review.id}>
+                <lightning-layout-item size="1" class="img-container">
+                    <img class="img-dp" src={review.Customer_Name__r.Profile_Pic__c} alt="Profile Pic">
+                </lightning-layout-item>
+                <lightning-layout-item size="11" class="">
+                    <lightning-layout multiple-rows="true" class="slds-var-p-left_small">
+                        <lightning-layout-item size="12" class="product-rating">
+                            <c-gsh-rating-stars rating-stars={review.Stars__c}
+                                onstarratingchange={handleStarRatingChange}></c-gsh-rating-stars>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="review-name">
+                            <span> {review.Customer_Name__r.Name}</span> {review.formattedDate}
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" class="review-text">
+                            {review.Review__c}
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+
 </template>

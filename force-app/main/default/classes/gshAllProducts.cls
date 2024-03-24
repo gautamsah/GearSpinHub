@@ -66,7 +66,7 @@ public class gshAllProducts {
             //     RatingDate=(rcc.CreatedDate).date().format();
             //     System.debug('date=' + (System.now()).date().format());
             // }
-            return [SELECT ID,Product__c,Customer_Name__c,Rating_Date__c,Name,Review__c,Stars__c FROM Rating__c WHERE Product__c=:productId];
+            return [SELECT ID,Customer_Name__r.Name,Customer_Name__r.Profile_Pic__c ,Rating_Date__c,Review__c,Stars__c FROM Rating__c WHERE Product__c=:productId];
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

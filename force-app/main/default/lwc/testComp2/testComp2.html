@@ -1,17 +1,18 @@
+<!-- <template>
+    <ul>
+        <template for:each={processedData} for:item="processedItem">
+            <li key={processedItem.id}>
+                Original Data: {processedItem.name} <br/>
+                Processed Data: {processedItem.processedName}
+            </li>
+        </template>
+    </ul>
+</template> -->
+
 <template>
-    <div class="product">
-        <img src={product.image} alt="Helmet" class="product-image"/>
-        <p class="sale">Sale!</p>
-        <div class="product-info">
-            <p><s>${product.originalPrice}</s> ${product.salePrice}</p>
-            <!-- Add star ratings and review component here -->
-            <p>{product.description}</p>
-            <div class="actions">
-                <input type="number" value={quantity}/>
-                <button onclick={addToCart}>Add to cart</button>
-                <!-- Add wishlist button here -->
-            </div>
-            <!-- Add category and tags here -->
-        </div>
+    <div class="star-container">
+        <template for:each={stars} for:item="star">
+            <img key={star.id} src={star.filled ? 'filled-star.png' : 'empty-star.png' } class="star">
+        </template>
     </div>
 </template>

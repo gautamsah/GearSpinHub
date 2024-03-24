@@ -1,0 +1,78 @@
+I see. To address this error, we need to refactor our approach slightly. We'll store the parsed profile picture URL in a property and bind that property directly in the template. Here's how you can do it:
+
+JavaScript (controller file):
+
+javascript
+Copy code
+
+
+
+
+
+
+import { LightningElement, track } from 'lwc';
+
+export default class YourComponent extends LightningElement {
+    @track allReviews = [
+        // Populate your allReviews data here
+    ];
+
+    connectedCallback() {
+        // Initialize the profile pic URL for each review
+        this.allReviews = this.allReviews.map(review => {
+            if (review.Customer_Name__r.Profile_Pic__c) {
+                review.profilePicUrl = JSON.parse(review.Customer_Name__r.Profile_Pic__c).url;
+            }
+            return review;
+        });
+    }
+}
+
+
+
+
+
+
+
+
+
+HTML (template file):
+
+html
+Copy code
+
+
+
+
+
+<template>
+    <lightning-layout for:each={allReviews} for:item="review" key={review.id}>
+        <lightning-layout-item size="1" class="slds-text-title_caps">
+            <img src={review.profilePicUrl} alt="Profile Pic">
+        </lightning-layout-item>
+        <lightning-layout-item size="11" class="">
+            <lightning-layout>
+                <lightning-layout-item size="12" class="product-rating">
+                    <c-gsh-rating-stars rating-stars={review.Stars__c} onstarratingchange={handleStarRatingChange}></c-gsh-rating-stars>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    {review.Customer_Name__r.Name} {review.Rating_Date__c}
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    {review.Review__c}
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
+
+
+
+
+
+
+In this updated code:
+
+We've added a profilePicUrl property to each review object in the allReviews array. This property stores the parsed profile pic URL obtained from the JSON string.
+During component initialization (connectedCallback), we parse the profile pic URL for each review and store it in the profilePicUrl property.
+In the HTML template, we directly bind the profilePicUrl property in the <img> tag's src attribute. This avoids the use of a method call in the template, resolving the LWC1060 error.

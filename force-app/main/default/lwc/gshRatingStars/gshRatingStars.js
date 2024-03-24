@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 
-export default class StarRating extends LightningElement {
-    @api ratingStars = 4;
+export default class GshRatingStars extends LightningElement {
+    @api ratingStars = 0;
     @track stars = [];
 
     connectedCallback() {
