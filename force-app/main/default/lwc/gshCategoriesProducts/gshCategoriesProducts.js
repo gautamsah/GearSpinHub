@@ -1,4 +1,4 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import getAllLatestProducts from '@salesforce/apex/gshAllProducts.getAllLatestProducts';
 // import addToCart from '@salesforce/apex/gshCartItems.addToCart';
 import userId from "@salesforce/user/Id";
@@ -8,6 +8,7 @@ export default class GshCategoriesProducts extends LightningElement {
     allProducts; // Assuming allProducts is initialized with your product data
     displayedProducts;
     isLoaded = true;
+    @track headingText='New Arrivals';
     // Slice the array to display only the first 4 products
     // get displayedProducts() {
     //     return this.allProducts.slice(0, 4);
@@ -34,6 +35,7 @@ export default class GshCategoriesProducts extends LightningElement {
             this.displayedProducts = this.allProducts.slice(0, 4);
         } else {
             // Filter products by category and display the first 4
+            this.headingText=selectedCategory;
             this.displayedProducts = this.allProducts.filter(product => product.Product_Category__c === selectedCategory).slice(0, 4);
         }
     }

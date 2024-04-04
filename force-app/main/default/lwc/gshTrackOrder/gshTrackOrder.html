@@ -1,0 +1,20 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item class="slds-text-title_caps slds-var-m-top_x-large heading">
+            Track Order
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item size="12">
+            <lightning-input type="text" label="Enter Order ID" value={orderId} onchange={handleSearchInput}></lightning-input>
+            <lightning-button label="Search" onclick={handleSearch} class="slds-m-top_small"></lightning-button>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout if:true={showDetails}>
+        <lightning-layout-item size="12">
+            <div class="slds-box slds-theme_default">
+                <p>Order Status: {orderDetails.Order_Status__c}</p>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

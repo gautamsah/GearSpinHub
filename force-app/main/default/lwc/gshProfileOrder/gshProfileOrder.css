@@ -1,0 +1,33 @@
+/* CSS for customer-order class */
+.customer-order {
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+    background-color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.customer-order-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #d8dde6;
+    background-color: #f3f6f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.customer-order-body {
+    padding: 1rem;
+    font-size: 16px;
+}
+
+.order-detail-button{
+    cursor: pointer;
+    background-color: #c1c3c5;
+    /* border: 1px solid; */
+    border-radius: 8px;
+    padding: 10px;
+}
+.order-detail-button:hover{
+    color: red;
+}

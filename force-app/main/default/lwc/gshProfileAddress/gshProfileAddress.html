@@ -1,0 +1,48 @@
+<template>
+    <lightning-layout class="slds-grid">
+        <lightning-layout-item size="6" class="slds-cols slds-p-right_large">
+            <div class="shipping-address-container">
+                <div class="shipping-address">
+                    <p><strong>Name:</strong> {accountDetails.Name}</p>
+                    <p><lightning-input label="Shipping Street:" name="ShippingStreet" value={ShippingStreet}
+                            disabled={ShippingNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Shipping City:" name="ShippingCity" value={ShippingCity}
+                            disabled={ShippingNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Shipping State:" name="ShippingState" value={ShippingState}
+                            disabled={ShippingNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Shipping Postal Code:" name="ShippingPostalCode" value={ShippingPostalCode}
+                            disabled={ShippingNotEditing} onchange={handleInputChange}></lightning-input></p>
+                </div>
+                <template if:false={ShippingNotEditing}>
+                    <lightning-button label="Update" onclick={handleShippingUpdateClick}></lightning-button>
+                    <lightning-button label="Cancel" onclick={handleShippingCancelClick}></lightning-button>
+                </template>
+                <template if:true={ShippingNotEditing}>
+                    <lightning-button label="Edit Address" onclick={handleShippingEditClick}></lightning-button>
+                </template>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" class="slds-cols slds-p-right_large">
+            <div class="shipping-address-container">
+                <div class="shipping-address">
+                    <p><strong>Name:</strong> {accountDetails.Name}</p>
+                    <p><lightning-input label="Billing Street:" name="BillingStreet" value={BillingStreet}
+                            disabled={BillingNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Billing City:" name="BillingCity" value={BillingCity} disabled={BillingNotEditing}
+                            onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Billing State:" name="BillingState" value={BillingState}
+                            disabled={BillingNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Billing Postal Code:" name="BillingPostalCode" value={BillingPostalCode}
+                            disabled={BillingNotEditing} onchange={handleInputChange}></lightning-input></p>
+                </div>
+                <template if:false={BillingNotEditing}>
+                    <lightning-button label="Update" onclick={handleBillingUpdateClick}></lightning-button>
+                    <lightning-button label="Cancel" onclick={handleBillingCancelClick}></lightning-button>
+                </template>
+                <template if:true={BillingNotEditing}>
+                    <lightning-button label="Edit Address" onclick={handleBillingEditClick}></lightning-button>
+                </template>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

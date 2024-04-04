@@ -1,24 +1,19 @@
-import { LightningElement, api, track } from 'lwc';
+// export default class TestComp extends LightningElement {
 
-export default class StarRating extends LightningElement {
-    @api ratingStars = 4;
-    @track stars = [];
 
-    connectedCallback() {
-        this.initializeStars();
+import { LightningElement, track } from 'lwc';
+
+export default class ModalWithButton extends LightningElement {
+    @track modalClass = 'modal fade-in-close';
+    @track backdropClass = 'backdrop fade-in-close';
+
+    openModal() {
+        this.modalClass = 'modal fade-in-open';
+        this.backdropClass = 'backdrop fade-in-open';
     }
 
-    initializeStars() {
-        for (let i = 0; i < 5; i++) {
-            const filled = i < this.ratingStars;
-            const path = this.getStarPath(filled);
-            this.stars.push({ id: i + 1, filled, path });
-        }
-    }
-
-    getStarPath(filled) {
-        return filled
-            ? "#FBB72C"
-            : '#CCCCCC';
+    closeModal() {
+        this.modalClass = 'modal fade-in-close';
+        this.backdropClass = 'backdrop fade-in-close';
     }
 }

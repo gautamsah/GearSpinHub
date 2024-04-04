@@ -9,7 +9,7 @@
     </lightning-layout>
     <lightning-layout>
         <lightning-layout-item class="scrollable-section">
-            <lightning-layout multiple-rows="true" for:each={allReviews} for:item="review" key={review.id}>
+            <lightning-layout multiple-rows="true" class="slds-var-p-vertical_medium" for:each={allReviews} for:item="review" key={review.id}>
                 <lightning-layout-item size="1" class="img-container">
                     <img class="img-dp" src={review.Customer_Name__r.Profile_Pic__c} alt="Profile Pic">
                 </lightning-layout-item>
@@ -20,7 +20,8 @@
                                 onstarratingchange={handleStarRatingChange}></c-gsh-rating-stars>
                         </lightning-layout-item>
                         <lightning-layout-item size="12" class="review-name">
-                            <span> {review.Customer_Name__r.Name}</span> {review.formattedDate}
+                            <div class="review-name-user">{review.Customer_Name__r.Name}</div>
+                            <div class="review-name-date">{review.formattedDate}</div>
                         </lightning-layout-item>
                         <lightning-layout-item size="12" class="review-text">
                             {review.Review__c}
@@ -30,5 +31,4 @@
             </lightning-layout>
         </lightning-layout-item>
     </lightning-layout>
-
 </template>

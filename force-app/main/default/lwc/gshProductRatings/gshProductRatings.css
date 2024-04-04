@@ -31,10 +31,19 @@
 }
 
 .review-name {
-    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-
+.review-name-user{
+    font-size: 20px;
+    font-weight: 600;
+}
+.review-name-date{
+    font-size: 16px;
+    color: #000000;
+}
 .review-text {
     font-size: 15px;
-    color: #cccccca4;
+    color: #a4a4a4a4;
 }

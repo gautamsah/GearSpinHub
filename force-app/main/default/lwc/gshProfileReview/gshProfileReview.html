@@ -1,0 +1,55 @@
+<template>
+    <!-- <lightning-layout>
+        <lightning-layout-item size="12"> -->
+    <template for:each={allCustomerReviews} for:item="review">
+        <lightning-layout multiple-rows="true" key={review.Id} class="slds-card slds-p-around_small review-wrapper">
+            <lightning-layout-item size="4" class="review-image">
+                <img src={review.Product__r.DisplayUrl} alt="">
+            </lightning-layout-item>
+            <lightning-layout-item size="8" class="review-body">
+                <div class="review-product" data-order-id={review.Id} onclick={onCardClick}>
+                    <strong>Product Name: </strong> {review.Product__r.Name}
+                </div>
+                <!-- <p><strong>Customer Name:</strong> {review.Customer_Name__c}</p> -->
+                <div class="review-date"><strong>Review Date: </strong> {review.formattedDate}</div>
+                <div class="review-star"><strong>Rating: </strong>
+                    <c-gsh-rating-stars rating-stars={review.Stars__c}
+                        onstarratingchange={handleStarRatingChange}></c-gsh-rating-stars>
+                </div>
+                <div class="review-des-box"><strong>Feedback: </strong> <span class="review-des">
+                        {review.Review__c}</span></div>
+                <div class="review-edit-button">
+                    <c-gsh-button button-label="Edit Review" button-name="editReview"
+                        onclickbutton={receivedEditReviewClick} data-review-id={review.Id}
+                        variant='review'></c-gsh-button>
+                    <div class={modalClass}>
+                        <div class="modal-content">
+                            <!-- Your content goes here -->
+                            <p>This is the content of the modal.</p>
+                            <div class="review-product">
+                                <strong>Product Name: </strong> {review.Product__r.Name}
+                            </div>
+                            <div class="review-star"><strong>Rating: </strong>
+                                <c-gsh-input-rating-stars rating-stars={review.modalStar}
+                                    onstarclick={handleStarRatingChange}></c-gsh-input-rating-stars>
+                            </div>
+                            <div>
+                                <div class="review-des-box"><strong>Feedback: </strong></div>
+                                <!-- <textarea value={review.Review__c} onchange={handleFeedbackChange}></textarea> -->
+                                <lightning-textarea name="feedback" label="" value={review.modalFeedback} rows="5"
+                                    onchange={handleFeedbackChange}></lightning-textarea>
+                            </div>
+                        </div>
+                        <footer class="modal-footer">
+                            <lightning-button label="Close" onclick={closeModal}></lightning-button>
+                            <lightning-button label="Update Review" onclick={updateReview}></lightning-button>
+                        </footer>
+                    </div>
+                    <div class={backdropClass} onclick={closeModal}></div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+    <!-- </lightning-layout-item>
+    </lightning-layout> -->
+</template>

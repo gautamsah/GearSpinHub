@@ -2,7 +2,7 @@ import { LightningElement, api, wire, track } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getProductDetail from '@salesforce/apex/gshAllProducts.getProductDetail';
+import getProductPageData from '@salesforce/apex/gshAllProducts.getProductPageData';
 import addToCart from '@salesforce/apex/gshCartItems.addToCartDetailPage';
 import { getRecord } from 'lightning/uiRecordApi';
 import userId from "@salesforce/user/Id";
@@ -24,41 +24,42 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
     productStock;
     productSize;
     productColor;
+    @track cartQuantity = 0;
+    cartProduct;
     isLoaded = true;
 
 
-    // Injects the current page reference into the component
     @wire(CurrentPageReference)
-    setCurrentPageReference(currentPageReference) {
-        if (currentPageReference) {
-            const state = currentPageReference.state;
-            // Check if 'productId' is available in the state parameters
-            if (state && state.productId) {
-                this.productId = state.productId;
-                console.log(this.productId);
-                // Now you have the productId, you can use it to fetch data or perform any other operations
-                getProductDetail({ productId: this.productId }).then((result) => {
-                    console.log(JSON.stringify(result));
-                    this.productDetail = result;
-                    this.isLoaded = false;
-                    this.setValues();
-                })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            }
-            // else {
-            //     this[NavigationMixin.Navigate]({
-            //         type: 'comm__namedPage',
-            //         attributes: {
-            //             name: 'Error',
-            //         },
-            //     });
+    pageRef;
+    connectedCallback() {
+        this.productId = this.pageRef.state.productId;
+        getProductPageData({ userId: this.userIdvar, productId: this.productId }).then((result) => {
+            console.log(JSON.stringify(result));
+            this.productDetail = result['productSelected'].map(item => ({ ...item }));
+            this.cartQuantity = result['cartQuantity'];
+            this.cartProduct = result['cartProduct'];
+            // if (!this.cartProduct) {
+            //     this.cartProduct.Quantity__c = 0;
             // }
-        }
+            console.log(this.productStock-this.cartProduct.Quantity__c);
+            this.isLoaded = false;
+            this.setValues();
+        })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
-    // Method to set values
+    // else {
+    //     this[NavigationMixin.Navigate]({
+    //         type: 'comm__namedPage',
+    //         attributes: {
+    //             name: 'Error',
+    //         },
+    //     });
+    // }
+
+
     setValues() {
         if (this.productDetail && this.productDetail.length > 0) {
             this.imgUrl = this.productDetail[0].DisplayUrl;
@@ -77,29 +78,28 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
     handleQuantityChange(event) {
         this.productQuantity = parseInt(event.target.value, 10);
     }
-    // Increase quantity
     increaseQuantity() {
-        if (this.productQuantity < this.productStock) {
+        const maxAllowed = this.productStock - (this.cartProduct.Quantity__c ? this.cartProduct.Quantity__c : 0);
+        if (this.productQuantity < maxAllowed) {
             this.productQuantity++;
+        } else {
+            this.productQuantity = maxAllowed;
         }
-        else if (this.productQuantity >= this.productStock) {
-            this.productQuantity = this.productStock;
-        }
+        // console.log(this.productQuantity , maxAllowed, this.cartProduct.Quantity__c, this.cartProduct);
     }
 
-    // Decrease quantity
     decreaseQuantity() {
-        if (this.productQuantity > 0 && this.productQuantity < this.productStock) {
+        const maxAllowed = this.productStock - (this.cartProduct.Quantity__c ? this.cartProduct.Quantity__c : 0);
+        if (this.productQuantity > 0) {
             this.productQuantity--;
-        }
-        else {
-            this.productQuantity = this.productStock - 1;
+        } else {
+            this.productQuantity = maxAllowed > 0 ? maxAllowed - 1 : 0;
         }
     }
 
     validateQuantity(event) {
         this.productQuantity = parseInt(event.target.value);
-        let maxStock = parseInt(this.productStock);
+        let maxStock = parseInt(this.productStock) - (this.cartProduct.Quantity__c ? this.cartProduct.Quantity__c : 0);
 
         if (this.productQuantity > maxStock) {
             event.target.value = maxStock;
@@ -107,37 +107,24 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
         }
     }
 
-    // Define the handleColorClick method
     handleColorClick(event) {
-        // Remove 'selected' class from all color dots
         const colorDots = this.template.querySelectorAll('.color-dot');
         colorDots.forEach(dot => dot.classList.remove('selected'));
-
-        // Add 'selected' class to the clicked color dot
         event.target.classList.add('selected');
-
-        // Get the selected color from the 'data-color' attribute
         this.productColor = event.target.dataset.color;
-
-        // Store the selected color data in JavaScript or use it directly
         console.log('Selected color:', this.productColor);
-        // You can perform further actions with the selected color data here
     }
 
     handleSelectChange(event) {
-        // Get the selected option value
         this.productSize = event.target.value;
-
-        // Log or use the selected option value for further processing
         console.log('Selected option:', this.productSize);
-        // You can perform further actions with the selected option value here
     }
     @track imageStyle = '';
 
     trackMouse(event) {
         const rect = event.target.getBoundingClientRect();
-        const scaleX = 1.1; // Adjust the zoom level as needed
-        const scaleY = 1.1; // Adjust the zoom level as needed
+        const scaleX = 1.1;
+        const scaleY = 1.1;
         const offsetX = (event.clientX - rect.left) * (scaleX - 1);
         const offsetY = (event.clientY - rect.top) * (scaleY - 1);
         this.imageStyle = `transform: scale(${scaleX}, ${scaleY}) translate(${-offsetX}px, ${-offsetY}px)`;
@@ -162,19 +149,10 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
         return this.productRating >= 5 ? true : false;
     }
 
-    // recieveClickedData(event){
-    //     console.log('Product Id ', this.productId);
-    //     console.log(event.detail.isClicked);
-    //     this.dispatchEvent(
-    //         new CustomEvent("productclick", {
-    //             detail:{productId:this.productId}
-    //         })
-    //     );
-    // }
     receivedCartClick(event) {
-        console.log(this.productColor);
-        console.log(this.productSize);
-        if(this.userIdvar=='2F00e5h0000013vMm'){
+        // console.log(this.productColor);
+        // console.log('user',this.userIdvar);
+        if (!this.userIdvar) {
             this.showToast('Failed', 'Please login first', 'error');
         }
         else if (!this.productColor || !this.productSize || this.productQuantity <= 0 || !this.productQuantity) {
@@ -192,6 +170,8 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
                 console.log(JSON.stringify(result));
                 if (result === 'Added to Cart Successfully') {
                     this.showToast('Success', 'Added to Cart Successfully', 'success');
+                    this.cartQuantity += this.productQuantity;
+                    // console.log("Cart Quantity",this.cartQuantity);
                 }
                 else {
                     this.showToast('Failed', 'An Error Occured', 'error');
@@ -203,8 +183,28 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
                 })
         }
     }
+
+    cartIconCLick() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Cart_Page__c',
+            },
+        });
+    }
     showToast(title, message, variant) {
         const toastEvent = new ShowToastEvent({ title, message, variant });
         this.dispatchEvent(toastEvent);
+    }
+    categoryCLick() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Search_Page__c',
+            },
+            state: {
+                'searchQuery': this.productCategory,
+            },
+        });
     }
 }

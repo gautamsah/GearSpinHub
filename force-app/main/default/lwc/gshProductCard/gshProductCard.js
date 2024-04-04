@@ -29,21 +29,21 @@ export default class GshProductCard extends NavigationMixin(LightningElement) {
             })
         );
     }
-    get star1(){
-        return this.productRating >= 1 ? true: false;
-    }
-    get star2(){
-        return this.productRating >= 2 ? true: false;
-    }
-    get star3(){
-        return this.productRating >= 3 ? true: false;
-    }
-    get star4(){
-        return this.productRating >= 4 ? true: false;
-    }
-    get star5(){
-        return this.productRating >= 5 ? true: false;
-    }
+    // get star1(){
+    //     return this.productRating >= 1 ? true: false;
+    // }
+    // get star2(){
+    //     return this.productRating >= 2 ? true: false;
+    // }
+    // get star3(){
+    //     return this.productRating >= 3 ? true: false;
+    // }
+    // get star4(){
+    //     return this.productRating >= 4 ? true: false;
+    // }
+    // get star5(){
+    //     return this.productRating >= 5 ? true: false;
+    // }
 
     openproductdetail(event) {
         // Get the product Id from the clicked product card

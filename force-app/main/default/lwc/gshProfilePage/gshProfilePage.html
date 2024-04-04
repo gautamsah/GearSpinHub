@@ -1,0 +1,41 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item class="slds-text-title_caps slds-var-m-top_x-large heading">
+            User Dashboard
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item size="3">
+            <div class={DashboardClass} onclick={loadComponent} data-section="dashboard">Dashboard</div>
+            <div class={PersonalInfoClass} onclick={loadComponent} data-section="personal-info">Personal Info</div>
+            <div class={OrdersClass} onclick={loadComponent} data-section="orders">Orders</div>
+            <div class={AddressClass} onclick={loadComponent} data-section="address">Address</div>
+            <div class={ReviewsClass} onclick={loadComponent} data-section="reviews">Reviews</div>
+            <div class={SupportTicketClass} onclick={loadComponent} data-section="support-ticket">Support Ticket</div>
+        </lightning-layout-item>
+        <lightning-layout-item size="9" class="details-box">
+            <template if:true={isDashboardSelected}>
+                1
+            </template>
+            <template if:true={isPersonalInfoSelected}>
+                <c-gsh-profile-info account-details={accountDetails}></c-gsh-profile-info>
+            </template>
+            <template if:true={isOrdersSelected}>
+                <c-gsh-profile-order all-customer-orders={allCustomerOrders} all-order-items={allOrdersItems} all-products={allProducts}></c-gsh-profile-order>
+            </template>
+
+            <template if:true={isAddressSelected}>
+                <template if:true={accountDetails}>
+                    <c-gsh-profile-address account-details={accountDetails}></c-gsh-profile-address>
+                </template>
+            </template>
+            
+            <template if:true={isReviewsSelected}>
+                <c-gsh-profile-review all-customer-reviews={allCustomerRatings} all-products={allProducts}></c-gsh-profile-review>
+            </template>
+            <template if:true={isSupportTicketSelected}>
+                6
+            </template>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

@@ -1,0 +1,37 @@
+<template>
+    <lightning-layout vertical-align="center" horizontal-align="center" class="search-container">
+        <lightning-layout-item>
+            <input type="text" placeholder="Search..." oninput={handleInputChange} onkeydown={handleKeyDown}/>
+        </lightning-layout-item>
+        <lightning-layout-item class="search-results">
+            <button onclick={handleSearchClick}>Search</button>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout class="slds-gutters_large">
+        <lightning-layout-item size="2">
+            <lightning-layout class="category-nav" multiple-rows="true">
+                <lightning-layout-item size="12" class="slds-text-title_caps slds-var-p-horizontal_large center-align">
+                    Categories To Explore:
+                </lightning-layout-item>
+                <lightning-layout-item size="12" for:each={categories} for:item="category" key={category} class="slds-p-around_small">
+                    <div onclick={onClickHandler} data-value={category} class="slds-p-around_small category_button">{category}
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+        <lightning-layout-item size="0.5">
+        </lightning-layout-item>
+        <lightning-layout-item size="9">
+            <lightning-layout multiple-rows="true" class="slds-gutters_large">
+                <lightning-layout-item size="4" key={product.Id} class="slds-col slds-var-m-bottom_x-large"
+                    for:each={searchResults} for:item="product">
+                    <c-gsh-product-card product-id={product.Id} product-name={product.Name} product-price={product.Price__c}
+                        product-rating={product.Average_Rating__c} product-image={product.DisplayUrl}
+                        product-category={product.Product_Category__c} product-description={product.Description}
+                        onproductclick={receivedCartClick}>
+                    </c-gsh-product-card>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

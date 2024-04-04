@@ -1,0 +1,29 @@
+    // setCurrentPageReference(currentPageReference) {
+    //     if (currentPageReference) {
+    //         const state = currentPageReference.state;
+    //         // Check if 'productId' is available in the state parameters
+    //         if (state && state.productId) {
+    //             this.productId = state.productId;
+    //             console.log(this.productId);
+    //             // Now you have the productId, you can use it to fetch data or perform any other operations
+    //             getProductDetail({ productId: this.productId }).then((result) => {
+    //                 console.log(JSON.stringify(result));
+    //                 this.productDetail =parseInt(result);
+    //                 this.isLoaded = false;
+    //                 this.setValues();
+    //             })
+    //             .catch((error) => {
+    //                 console.log(error);
+    //             });
+    //             // try {
+    //             //     getCartItemCount({ userId: this.userIdvar }).then((result) => {
+    //             //         console.log(JSON.stringify(result));
+    //             //         this.CartItemCount = result;
+    //             //         console.log('CartItemCount', this.CartItemCount);
+    //             //     })
+    //             //     // .catch((error) => {
+    //             //     //     console.log(error);
+    //             //     // });
+    //             // } catch (error) {
+    //             //     console.log(error);
+    //             // }

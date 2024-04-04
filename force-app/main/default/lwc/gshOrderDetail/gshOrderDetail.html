@@ -1,0 +1,126 @@
+<template>
+    <div lwc:if={isLoaded}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+    <div lwc:else>
+        <lightning-layout horizontal-align="spread" vertical-align="end">
+            <lightning-layout-item class="slds-text-title_caps slds-var-m-top_x-large heading">
+                Order Details
+            </lightning-layout-item>
+            <lightning-layout-item>
+                <c-gsh-button button-label="Invoice" button-name="invoice" onclickbutton={receivedInvoiceClick} data-order-id={customerOrder.Id} variant='buynow'></c-gsh-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout>
+            <lightning-layout-item size="4">
+                <lightning-layout multiple-rows="true" vertical-align="center" class="sidebox-container">
+                    <lightning-layout-item size="12" class="flexprop price-details">
+                        <div>Order No:</div>
+                        <div>{customerOrder.Name}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="flexprop">
+                        <div>Order Status:</div>
+                        <div>{customerOrder.Order_Status__c}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="flexprop">
+                        <div>Tracking Id:</div>
+                        <div>{customerOrder.Id}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="flexprop">
+                        <div class="shipping-text">Shipping Address:</div>
+                        <div class="shipping-address">
+                            {customerOrder.Shipping_Address__c}
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="flexprop">
+                        <div class="shipping-text">Billing Address:</div>
+                        <div class="shipping-address">
+                            {customerOrder.Billing_Address__c}
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="flexprop">
+                        <div>Order Value:</div>
+                        <div>₹{orderTotal}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="flexprop">
+                        <div>Shipping Charges:</div>
+                        <div>
+                            <!-- <span class="shipping-free" if:true={isshippingChargesFree}>₹100</span> -->
+                            ₹{customerOrder.Shipping_Charges__c}
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="flexprop">
+                        <div>Total Amount:</div>
+                        <div>₹{customerOrder.Total_Amount__c}</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="payment-method-container flexprop">
+                        <label for="paymentMethod">Payment Method:</label>
+                        <div id="paymentMethod" class="payment-method-select">
+                            {customerOrder.Payment_Mode__c}
+                        </div>
+                    </lightning-layout-item>
+                    <template if:true={showCancelButton}>
+                        <lightning-layout-item size="12">
+                            <c-gsh-button button-label="Cancel Order" button-name="cancelOrder" onclickbutton={receivedOrderCancelClick} variant='buynow'></c-gsh-button>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </lightning-layout-item>
+            <lightning-layout-item size="8">
+                <div class="cart-container">
+                    <table class="custom-table">
+                        <thead>
+                            <tr class="custom-table-header">
+                                <th>Product Name</th>
+                                <th>Color</th>
+                                <th>Size</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Subtotal</th>
+                                <th>Review</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Loop through cart items -->
+                            <template for:each={orderItems} for:item="itemWithSubtotal" for:index="index">
+                                <tr key={itemWithSubtotal.id}>
+                                    <!-- Product Name -->
+                                    <td onclick={openProductPage} data-product-id={itemWithSubtotal.Product__r.Id} data-category={itemWithSubtotal.Product__r.Product_Category__c}>
+                                        <div class="img-box">
+                                            <img src={itemWithSubtotal.Product__r.DisplayUrl} alt="Product Image">
+                                        </div>
+                                        <span class="productName" onclick={openProductPage} data-product-id={itemWithSubtotal.Product__r.Id} data-category={itemWithSubtotal.Product__r.Product_Category__c}>
+                                            {itemWithSubtotal.Product__r.Name}
+                                        </span>
+                                    </td>
+                                    <!-- Color -->
+                                    <td>{itemWithSubtotal.Color__c}</td>
+                                    <!-- Size -->
+                                    <td>{itemWithSubtotal.Size__c}</td>
+                                    <!-- Quantity -->
+                                    <td>
+                                        {itemWithSubtotal.Quantity__c}
+                                    </td>
+                                    <!-- Price -->
+                                    <td>₹{itemWithSubtotal.Product__r.Price__c}</td>
+                                    <!-- Subtotal -->
+                                    <td>₹{itemWithSubtotal.subtotal}</td>
+                                    <!-- Action -->
+                                    <td class="quantity-column">
+                                        <template if:true={itemWithSubtotal.showAddReviewDelivered}>
+                                            <c-gsh-button button-label="Give Review" button-name="reviewOrder" onclickbutton={receivedReviewClick} data-product-id={itemWithSubtotal.Id} variant='review'></c-gsh-button>
+                                        </template>
+                                        <template if:true={itemWithSubtotal.showDoneReviewDelivered}>
+                                            <!-- <c-gsh-button button-label="Review Done" button-name="reviewOrder" onclickbutton={receivedReviewClick} data-order-id={itemWithSubtotal.Id} variant='updatecart'></c-gsh-button> -->
+                                            <c-gsh-rating-stars rating-stars={itemWithSubtotal.reviewStars} onstarratingchange={handleStarRatingChange}></c-gsh-rating-stars>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

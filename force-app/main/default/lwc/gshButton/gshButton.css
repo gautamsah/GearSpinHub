@@ -35,15 +35,45 @@
 
 .buynow-button{
     width: 100%;
-    background-color: #4bca81;
+    background-color: #ff0000;
     color: white;
-    border: 1px solid #4bca81;
+    border: 1px solid #ff0000;
     border-radius: 8px;
     padding: 10px;
     margin: 10px 0;
     transition: background-color 0.3s ease;
 }
 .buynow-button:hover {
-    background-color: #04844b;
-    border: 1px solid #04844b;
+    background-color: rgb(200, 0, 0);
+    border: 1px solid rgb(200, 0, 0);
+}
+.updatecart-button{
+    width: 80%;
+    background-color: #000000;
+    color: white;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+}
+.updatecart-button:hover {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(0, 0, 0);
+    color: #000000;
+}
+
+.review-button{
+    width: 100%;
+    background-color: rgb(44, 190, 0);
+    color: white;
+    border: 1px solid rgb(44, 190, 0);
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+}
+.review-button:hover {
+    background-color: rgb(32, 139, 0);
+    border: 1px solid rgb(32, 139, 0);
 }

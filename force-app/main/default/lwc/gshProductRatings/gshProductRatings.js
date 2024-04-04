@@ -29,9 +29,9 @@ export default class GshProductRatings extends NavigationMixin(LightningElement)
                 const options = { month: 'long', day: 'numeric', year: 'numeric' };
                 review.formattedDate = new Intl.DateTimeFormat('en-US', options).format(dateObj);
             }
-            if (!review.Customer_Name__r.Profile_Pic__c) {
-                review.Customer_Name__r.Profile_Pic__c="";
-            }
+            // if (!review.Customer_Name__r.Profile_Pic__c) {
+            //     review.Customer_Name__r.Profile_Pic__c="https://raw.githubusercontent.com/gautamsah/GearSpinHub/main/resources/user_nodp2.jpg";
+            // }
             return review;
         });
     }

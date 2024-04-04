@@ -2,6 +2,14 @@
     <div lwc:if={isLoaded}>
         <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
     </div>
+    <lightning-layout horizontal-align="spread" vertical-align="center">
+        <lightning-layout-item class="slds-text-title_caps slds-var-m-vertical_x-large heading">
+            All Products
+        </lightning-layout-item>
+        <lightning-layout-item class="slds-text-title_caps slds-var-m-vertical_x-large total-heading">
+            (Total {allProductsCount} Products)
+        </lightning-layout-item>
+    </lightning-layout>
     <lightning-layout multiple-rows="true" class="slds-gutters_large">
         <lightning-layout-item size="3" key={product.Id} class="slds-col slds-var-m-bottom_x-large" for:each={allProducts}
             for:item="product">

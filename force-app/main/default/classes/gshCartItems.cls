@@ -53,7 +53,7 @@ public class gshCartItems {
             // If cart line items exist, update the quantity or insert a new line item
             if (!existingLineItems.isEmpty()) {
                 for (Cart_Line_Item__c lineItem : existingLineItems) {
-                    lineItem.Quantity__c = productQuantity;
+                    lineItem.Quantity__c += productQuantity;
                     lineItem.Color__c = productColor;
                     lineItem.Size__c = productSize;
                     
@@ -76,4 +76,51 @@ public class gshCartItems {
             throw new AuraHandledException(e.getMessage());
         }
 }
+
+    
+    @AuraEnabled
+    public static List<Cart_Line_Item__c> getCartItems(string userId){
+        try {
+            ID accId=ApexUtilities.getAccountID(userId);
+            ID cartId=[SELECT Id FROM Customer_Cart__c WHERE Customer_Name__c=:accId LIMIT 1].ID;
+            return [SELECT Id, Product__r.Name, Color__c, Product__r.Price__c, Product__r.Available_Stock__c, Product__r.DisplayUrl, Quantity__c, Size__c FROM Cart_Line_Item__c WHERE Customer_Cart__c=:cartId];
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static string updateCartItems(List<Cart_Line_Item__c> cartItems, List<Cart_Line_Item__c> cartItemsDeleted){
+        try {
+            if (!cartItems.isEmpty()) {
+                update cartItems;
+            }
+            if (!cartItemsDeleted.isEmpty()) {
+                delete cartItemsDeleted;
+            }
+            return 'Successful';
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    
+    @AuraEnabled(cacheable=false)
+    public static Map<String, Object> getCartPageData(String userId) {
+        Map<String, Object> result = new Map<String, Object>();
+        
+        // Get cart items
+        // List<CartLineItem> cartItems = [SELECT Id, Name, Quantity__c, ... FROM CartLineItem WHERE UserId__c = :userId];
+        ID accId=ApexUtilities.getAccountID(userId);
+        ID cartId=[SELECT Id FROM Customer_Cart__c WHERE Customer_Name__c=:accId LIMIT 1].ID;
+        List<Cart_Line_Item__c> cartItems = [SELECT Id, Product__r.Name, Color__c, Product__r.Price__c, Product__r.Product_Category__c, Product__r.Available_Stock__c, Product__r.DisplayUrl, Quantity__c, Size__c FROM Cart_Line_Item__c WHERE Customer_Cart__c=:cartId];
+        
+        // Get account details
+        // Account accountDetails = [SELECT Id, Name, ... FROM Account WHERE Id IN (SELECT AccountId FROM User WHERE Id = :userId)];
+        Account accountDetails = [SELECT Id, Name, ShippingStreet,  ShippingCity, ShippingState,  ShippingPostalCode, BillingStreet, BillingCity, BillingState, BillingPostalCode, Wallet_Amount__c FROM Account WHERE Id=:accId LIMIT 1];
+        
+        result.put('cartItems', cartItems);
+        result.put('accountDetails', accountDetails);
+        
+        return result;
+    }
 }

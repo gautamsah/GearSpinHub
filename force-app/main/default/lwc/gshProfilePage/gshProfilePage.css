@@ -1,0 +1,52 @@
+.heading{
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+}
+
+.profile-section-first{
+    border-top: 1px solid grey;
+}
+.profile-section{
+    font-size: 22px;
+    color: #666666;
+    border-bottom: 1px solid grey;
+    padding: 20px;
+    cursor: pointer;
+}
+.profile-section:hover{
+    color: red;
+    background-color: #fafafa;
+}
+.profile-section-selected{
+    color: red;
+    background-color: #fafafa;
+}
+.details-box{
+    padding: 0 0 0 30px;
+}
+
+/* CSS for customer-order class */
+.customer-order {
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+    background-color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.customer-order-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #d8dde6;
+    background-color: #f3f6f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.customer-order-body {
+    padding: 1rem;
+    font-size: 16px;
+}
+
+

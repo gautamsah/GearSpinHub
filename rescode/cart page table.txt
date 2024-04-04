@@ -1,0 +1,100 @@
+<template>
+    <div class="cart-container">
+        <table class="custom-table">
+            <thead>
+                <tr class="custom-table-header">
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={cartItems} for:item="itemWithSubtotal" key={itemWithSubtotal.id}>
+                    <tr key={itemWithSubtotal.id}>
+                        <td>{itemWithSubtotal.name}</td>
+                        <td>
+                            <lightning-button-icon icon-name="utility:add" data-item-id={itemWithSubtotal.id} onclick={increaseQuantity}></lightning-button-icon>
+                            <span class="">{itemWithSubtotal.quantity}</span>
+                            <lightning-button-icon icon-name="utility:dash" data-item-id={itemWithSubtotal.id} onclick={decreaseQuantity}></lightning-button-icon>
+                        </td>
+                        <td>{itemWithSubtotal.color}</td>
+                        <td>{itemWithSubtotal.size}</td>
+                        <td>{itemWithSubtotal.price}</td>
+                        <td>{itemWithSubtotal.subtotal}</td>
+                        <td>
+                            <!-- icon-name="utility:delete" -->
+                            <lightning-button-icon
+                                icon-name="utility:close"
+                                value={itemWithSubtotal.id}
+                                onclick={removeItem}
+                                alternative-text="Remove"
+                                title="Remove">
+                            </lightning-button-icon>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+
+
+
+
+
+
+
+/* Cart Container */
+.cart-container {
+    width: 100%;
+    margin: 20px auto;
+}
+
+/* Custom Table Styling */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+    border-top: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.custom-table th {
+    background-color: #f2f2f2;
+}
+
+/* Table Rows */
+.custom-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Action Buttons */
+.slds-button-icon {
+    cursor: pointer;
+}
+
+/* Remove Button */
+.slds-button-icon.remove-button:hover {
+    color: #ff0000;
+}
+
+/* Increase and Decrease Quantity Buttons */
+.slds-button-icon.add-button:hover,
+.slds-button-icon.remove-button:hover {
+    color: #4CAF50;
+}
+
+/* Hover effect on Action Buttons */
+.slds-button-icon:hover {
+    background-color: #ddd;
+}
+

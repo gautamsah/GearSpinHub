@@ -1,0 +1,27 @@
+<template>
+    <lightning-layout class="slds-grid">
+        <lightning-layout-item size="12" class="slds-cols slds-p-right_large">
+            <div class="profile-info-container">
+                <div class="profile-info">
+                    <p><strong>Full Name:</strong> {FullName}</p>
+                    <p><lightning-input label="First Name:" name="FirstName" value={FirstName}
+                            disabled={ProfileNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Last Name:" name="LastName" value={LastName}
+                            disabled={ProfileNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Email Id:" name="Email" value={Email} type="email"
+                            disabled={ProfileNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Phone No:" name="Phone" value={Phone} type="phone"
+                            disabled={ProfileNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-select name="Gender" label="Gender:" value={Gender} options={options} onchange={handleChange} disabled={ProfileNotEditing} ></lightning-select></p>
+                </div>
+                <template if:false={ProfileNotEditing}>
+                    <lightning-button label="Update" onclick={handleUpdateClick}></lightning-button>
+                    <lightning-button label="Cancel" onclick={handleCancelClick}></lightning-button>
+                </template>
+                <template if:true={ProfileNotEditing}>
+                    <lightning-button label="Edit Info" onclick={handleEditClick}></lightning-button>
+                </template>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

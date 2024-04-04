@@ -1,0 +1,167 @@
+.heading{
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.productName:hover{
+    text-decoration: underline;
+    color: red;
+}
+
+/* Cart Container */
+.cart-container {
+    width: 100%;
+    margin: 20px auto;
+}
+
+/* Custom Table Styling */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.custom-table th,
+.custom-table td {
+    border-top: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    font-size: 18px;
+}
+
+.custom-table th {
+    background-color: #f2f2f2;
+    background-color: #fafafa;
+}
+
+/* Table Rows */
+.custom-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Quantity Column */
+.quantity-column {
+    width: 140px;
+    /* Set a fixed width for the quantity column */
+    text-align: center;
+    /* Center-align the content */
+}
+
+/* Quantity Button */
+.quantity-button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+/* Quantity Text */
+.quantity {
+    width: 35px;
+    display: inline-block;
+    text-align: center;
+}
+
+/* Action Buttons */
+.slds-button-icon {
+    cursor: pointer;
+}
+
+/* Hover effect on Action Buttons */
+.slds-button-icon:hover {
+    background-color: #ddd;
+}
+
+.action-column {
+    width: 50px;
+}
+
+.img-box {
+    width: 90px;
+    display: inline-block;
+    margin-right: 8px;
+    pointer-events: none;
+}
+
+.color-selection {
+    border: 1px solid #f2f2f2;
+    border: 1px solid #c9c9c9;
+    border-radius: 3px;
+    width: 70px;
+    height: 32px;
+}
+
+.size-selection {
+    border: 1px solid #c9c9c9;
+    border-radius: 3px;
+    width: 50px;
+    height: 32px;
+}
+
+.update-cart-container{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+
+.sidebox-container{
+    padding: 10px 10px;
+    background-color: #fafafa;
+    margin-top: 20px;
+    margin-right: 10px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+.price-details{
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.flexprop{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.shipping-text{
+    width: 50%;
+    align-self: baseline;
+}
+.shipping-free{
+    text-decoration: line-through;
+    margin-right: 7px;
+    color: red;
+}
+.shipping-address{
+    font-size: 14px;
+    text-align: end;
+}
+.change-address{
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    justify-content: end;
+    cursor: pointer;
+}
+.change-address:hover{
+    color: red;
+    text-decoration: underline;
+}
+.payment-method-container {
+    margin-bottom: 10px;
+}
+
+.payment-method-select {
+    /* width: 100%; */
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}

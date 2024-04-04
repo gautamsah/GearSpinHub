@@ -1,0 +1,174 @@
+Sure, you can combine the modal component and the button to show the modal into a single component. Here's how you can do it:
+
+modalWithButton.html:
+```html
+<template>
+    <div>
+        <lightning-button label="Show Modal" onclick={openModal}></lightning-button>
+        <div class={modalClass}>
+            <div class="slds-modal__content slds-p-around_medium">
+                <!-- Your content goes here -->
+                <p>This is the content of the modal.</p>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning-button label="Close" onclick={closeModal}></lightning-button>
+            </footer>
+        </div>
+        <div class={backdropClass} onclick={closeModal}></div>
+    </div>
+</template>
+```
+
+modalWithButton.js:
+```javascript
+import { LightningElement, track } from 'lwc';
+
+export default class ModalWithButton extends LightningElement {
+    @track modalClass = 'slds-modal slds-fade-in-close';
+    @track backdropClass = 'slds-backdrop slds-backdrop_close';
+
+    openModal() {
+        this.modalClass = 'slds-modal slds-fade-in-open';
+        this.backdropClass = 'slds-backdrop slds-backdrop_open';
+    }
+
+    closeModal() {
+        this.modalClass = 'slds-modal slds-fade-in-close';
+        this.backdropClass = 'slds-backdrop slds-backdrop_close';
+    }
+}
+```
+
+modalWithButton.css:
+```css
+.slds-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.slds-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+}
+
+.slds-fade-in-open {
+    display: block;
+}
+
+.slds-fade-in-close {
+    display: none;
+}
+
+```
+
+This single component combines both the button and the modal. When the button is clicked, the modal will be shown, and when the close button is clicked, the modal will be closed. You can customize the content and appearance of the modal as needed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+To show a popup window when a button is clicked in a Lightning Web Component (LWC), you can use the SLDS Modal component provided by Salesforce. Here's how you can implement it:
+
+1. **Create Modal Component**:
+   Create a new Lightning Web Component for your modal popup. Here's a simple example:
+
+   modalPopup.html:
+   ```html
+   <template>
+       <div class="slds-modal slds-fade-in-open">
+           <div class="slds-modal__container">
+               <header class="slds-modal__header">
+                   <h2 class="slds-text-heading_medium">Modal Header</h2>
+               </header>
+               <div class="slds-modal__content slds-p-around_medium">
+                   <!-- Your content goes here -->
+                   <p>This is the content of the modal.</p>
+               </div>
+               <footer class="slds-modal__footer">
+                   <lightning-button label="Close" onclick={closeModal}></lightning-button>
+               </footer>
+           </div>
+       </div>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+   </template>
+   ```
+
+   modalPopup.js:
+   ```javascript
+   import { LightningElement } from 'lwc';
+
+   export default class ModalPopup extends LightningElement {
+       closeModal() {
+           // Dispatch custom event to notify parent component to close the modal
+           this.dispatchEvent(new CustomEvent('close'));
+       }
+   }
+   ```
+
+   modalPopup.css:
+   ```css
+   .slds-modal__container {
+       width: 60rem;
+       max-width: 90%;
+   }
+   ```
+
+2. **Use Modal Component in Parent Component**:
+   Use the modal component in your parent component and handle the button click event to show the modal.
+
+   parentComponent.html:
+   ```html
+   <template>
+       <lightning-button label="Show Modal" onclick={openModal}></lightning-button>
+       <c-modal-popup onclose={closeModal}></c-modal-popup>
+   </template>
+   ```
+
+   parentComponent.js:
+   ```javascript
+   import { LightningElement } from 'lwc';
+
+   export default class ParentComponent extends LightningElement {
+       openModal() {
+           const modalPopup = this.template.querySelector('c-modal-popup');
+           modalPopup.classList.add('slds-fade-in-open');
+       }
+
+       closeModal() {
+           const modalPopup = this.template.querySelector('c-modal-popup');
+           modalPopup.classList.remove('slds-fade-in-open');
+       }
+   }
+   ```
+
+   parentComponent.css:
+   ```css
+   .slds-fade-in-open {
+       display: block;
+   }
+   ```
+
+This setup will allow you to show a popup window when the button is clicked. You can customize the modal content and appearance according to your requirements.

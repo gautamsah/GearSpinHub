@@ -12,6 +12,13 @@
 }
 .card_img {
     border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+.card_img:hover {
+    /* transform: scaleX(-1); */
+    /* transform: perspective(1000px) rotateY(10deg); */
+    transform: scale(1.2);
 }
 
 .card_img_container {
@@ -24,8 +31,9 @@
 }
 
 .card_img_container:hover {
-    transform: scaleX(-1);
+    /* transform: scaleX(-1); */
     /* transform: perspective(1000px) rotateY(10deg); */
+    /* transform: scale(1.2); */
 }
 
 .pr_category {

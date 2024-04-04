@@ -25,6 +25,12 @@ export default class GshButton extends LightningElement {
         else if(this.variant=='buynow'){
             return 'buynow-button';
         }
+        else if(this.variant=='updatecart'){
+            return 'updatecart-button';
+        }
+        else if(this.variant=='review'){
+            return 'review-button';
+        }
         else{
             return 'default-button';
         }
