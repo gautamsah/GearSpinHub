@@ -26,46 +26,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Loop through cart items -->
                         <template for:each={cartItems} for:item="itemWithSubtotal" for:index="index">
                             <tr key={itemWithSubtotal.id}>
-                                <!-- Action -->
                                 <td class="action-column">
-                                    <lightning-button-icon icon-name="utility:close" data-index={index}
+                                    <lightning-button-icon icon-name="utility:delete" data-index={index}
                                         onclick={removeItem} alternative-text="Remove" title="Remove">
                                     </lightning-button-icon>
                                 </td>
-                                <!-- Product Name -->
-                                <td onclick={openProductPage} data-product-id={itemWithSubtotal.Product__r.Id} data-category={itemWithSubtotal.Product__r.Product_Category__c}>
-                                    <div class="img-box">
+                                <td onclick={openProductPage} data-product-id={itemWithSubtotal.Product__r.Id}>
+                                    <div class="img-box slds-var-m-right_x-small">
                                         <img src={itemWithSubtotal.Product__r.DisplayUrl} alt="Product Image">
                                     </div>
-                                    <span class="productName">
+                                    <span class="productName" onclick={openProductPage} data-product-id={itemWithSubtotal.Product__r.Id}>
                                         {itemWithSubtotal.fullName}
                                     </span>
                                 </td>
-                                <!-- Color -->
                                 <td>{itemWithSubtotal.Color__c}</td>
-                                <!-- Size -->
                                 <td>{itemWithSubtotal.Size__c}</td>
-                                <!-- Quantity -->
                                 <td class="quantity-column">
-                                    <lightning-button-icon class="quantity-button" icon-name="utility:dash"
+                                    <lightning-button-icon class="quantity-button slds-var-p-around_none" icon-name="utility:dash"
                                         data-index={index} onclick={decreaseQuantity}></lightning-button-icon>
                                     <div class="quantity">{itemWithSubtotal.Quantity__c}</div>
                                     <lightning-button-icon class="quantity-button" icon-name="utility:add"
                                         data-index={index} onclick={increaseQuantity}></lightning-button-icon>
                                 </td>
-                                <!-- Price -->
                                 <td>₹{itemWithSubtotal.Product__r.Price__c}</td>
-                                <!-- Subtotal -->
                                 <td>₹{itemWithSubtotal.subtotal}</td>
                             </tr>
                         </template>
                         <tr>
                             <td colspan="5"></td>
                             <td colspan="2">
-                                <!-- <div class="update-cart-container"></div> -->
                                 <c-gsh-button class="" button-label="Update Cart" button-name="updatecart"
                         onclickbutton={receivedUpdateCartClick} variant='updatecart'></c-gsh-button>
                             </td>
@@ -74,24 +65,13 @@
                 </table>
             </div>
         </lightning-layout-item>
-        <lightning-layout-item size="4">
+        <lightning-layout-item size="4" class="slds-m-bottom_large">
             <lightning-layout multiple-rows="true" vertical-align="center" class="sidebox-container">
                 <lightning-layout-item size="12" class="price-details">Price Details</lightning-layout-item>
                 <lightning-layout-item size="12" class="flexprop">
                     <div>Order Value</div>
                     <div>₹{orderTotal}</div>
                 </lightning-layout-item>
-                <!-- <template if:true={accountDetails}>
-                    <lightning-layout-item size="12" class="flexprop">
-                        <div class="shipping-text">Shipping Address</div>
-                        <div class="shipping-address">{accountDetails.ShippingStreet}, {accountDetails.ShippingCity}, {accountDetails.ShippingState} - {accountDetails.ShippingPostalCode}</div>
-                    </lightning-layout-item>
-                </template>
-                <template if:false={accountDetails}>
-                    <lightning-layout-item size="12" class="flexprop">
-                        <div>No shipping address available</div>
-                    </lightning-layout-item>
-                </template> -->
                 <template if:true={accountDetails}>
                     <lightning-layout-item size="12" class="flexprop">
                         <div class="shipping-text">Shipping Address</div>
@@ -101,7 +81,7 @@
                             </div>
                         </template>
                         <template if:false={hasShippingAddress}>
-                            <div class="shipping-address"><strong>No Shipping Address Available</strong></div>
+                            <div class="shipping-address red-text"><strong>No Shipping Address Available</strong></div>
                         </template>
                     </lightning-layout-item>
                     <lightning-layout-item size="12" class="flexprop">
@@ -112,18 +92,18 @@
                             </div>
                         </template>
                         <template if:false={hasBillingAddress}>
-                            <div class="shipping-address"><strong>No Billing Address Available</strong></div>
+                            <div class="shipping-address red-text"><strong>No Billing Address Available</strong></div>
                         </template>
                     </lightning-layout-item>
                 </template>
                 <template if:false={accountDetails}>
                     <lightning-layout-item size="12" class="flexprop">
                         <div class="shipping-text">Shipping Address</div>
-                        <div class="shipping-address"><strong>No Shipping Address Available</strong></div>
+                        <div class="shipping-address red-text"><strong>No Shipping Address Available</strong></div>
                     </lightning-layout-item>
                     <lightning-layout-item size="12" class="flexprop">
                         <div class="shipping-text">Billing Address</div>
-                        <div class="shipping-address"><strong>No Billing Address Available</strong></div>
+                        <div class="shipping-address red-text"><strong>No Billing Address Available</strong></div>
                     </lightning-layout-item>
                 </template>
                 
@@ -132,7 +112,7 @@
                 </lightning-layout-item>
                 <lightning-layout-item size="12" class="flexprop">
                     <div>Shipping Charges</div>
-                    <div><span class="shipping-free" if:true={isshippingChargesFree}>₹100</span>₹{shippingCharges}</div>
+                    <div><span class="shipping-free slds-var-m-right_x-small" if:true={isshippingChargesFree}>₹100</span>₹{shippingCharges}</div>
                 </lightning-layout-item>
                 <lightning-layout-item size="12" class="flexprop">
                     <div>Total Amount</div>
@@ -150,10 +130,38 @@
                     </select>
                 </lightning-layout-item>
                 <lightning-layout-item size="12">
-                    <c-gsh-button class="" button-label="Checkout" button-name="checkout"
-                        onclickbutton={receivedCheckoutClick} variant='buynow'></c-gsh-button>
+                    <button class="checkout-button" onclick={receivedCheckoutClick} disabled={isCartEmpty}>Checkout</button>
                 </lightning-layout-item>
             </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout if:true={modalActive}>
+        <lightning-layout-item>
+            <div class={modalClass}>
+                <div class="modal-content">
+                    <div class="payment-title slds-var-m-bottom_large">
+                        Payment Verification
+                    </div>
+                    <div class="otp-email slds-var-m-bottom_medium">
+                        An OTP will be sent to your E-Mail Id
+                        <strong> {accountDetails.PersonEmail}</strong>. Please check the spam folder as well!
+                    </div>
+                    <div class="slds-var-m-bottom_medium">
+                        <lightning-button title="Generate OTP" onclick={generateOtp} disabled={genButtonDisabled}  label={genButtonLabel}></lightning-button>
+                    </div>
+                    <div>
+                        <lightning-input type="tel" label="Enter Your Otp:" onchange={handleOtpInputChange} placeholder="6 digit number" maxlength="6"></lightning-input>
+                    </div>
+                    <div class="otp-autoclose">
+                        This page will auto close in 2min
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <lightning-button label="Close" onclick={closeModal}></lightning-button>
+                    <lightning-button label="Confirm Otp" onclick={verifyOtp}></lightning-button>
+                </footer>
+            </div>
+            <div class={backdropClass} onclick={closeModal}></div>
         </lightning-layout-item>
     </lightning-layout>
 </template>

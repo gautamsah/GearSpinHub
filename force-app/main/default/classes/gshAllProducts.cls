@@ -65,18 +65,20 @@ public class gshAllProducts {
 
         List<Product2> productSelected = [SELECT Id, Name, IsActive, Price__c, Product_Category__c, Description, DisplayUrl, Available_Stock__c, Consumed_Stock__c ,Average_Rating__c, Rating_Count__c, Product_Detail_Desc__c FROM Product2 WHERE Id=:productId LIMIT 1];
         
-        Customer_Cart__c cart=[SELECT Id FROM Customer_Cart__c WHERE Customer_Name__c=:accId LIMIT 1];
-
-        List<Cart_Line_Item__c> cartItems = [SELECT Id, Product__r.Name, Color__c, Product__r.Price__c, Product__r.Available_Stock__c, Product__r.DisplayUrl, Quantity__c, Size__c FROM Cart_Line_Item__c WHERE Customer_Cart__c=:cart.Id];
-
         Integer cartQuantity=0;
         Cart_Line_Item__c cartProduct=new Cart_Line_Item__c();
-        for (Cart_Line_Item__c item : cartItems) {
-            cartQuantity+=(Integer)item.Quantity__c;
-            if(item.Product__c == productSelected[0].Id){
-                cartProduct=item;
+        if(accId!=NULL){
+            Customer_Cart__c cart=[SELECT Id FROM Customer_Cart__c WHERE Customer_Name__c=:accId LIMIT 1];
+            List<Cart_Line_Item__c> cartItems = [SELECT Id, Product__r.Name, Color__c, Product__r.Price__c, Product__r.Available_Stock__c, Product__r.DisplayUrl, Quantity__c, Size__c FROM Cart_Line_Item__c WHERE Customer_Cart__c=:cart.Id];
+            for (Cart_Line_Item__c item : cartItems) {
+                cartQuantity+=(Integer)item.Quantity__c;
+                if(item.Product__c == productSelected[0].Id){
+                    cartProduct=item;
+                }
             }
         }
+
+
 
         result.put('productSelected', productSelected);
         result.put('cartQuantity', cartQuantity);
@@ -86,59 +88,15 @@ public class gshAllProducts {
     }
 
     @AuraEnabled
-    public static List<Product2> getRelatedProducts(String productId, String productCategory){
+    public static List<Product2> getRelatedProducts(String productId){
         try {
-            return [SELECT ID, Name, IsActive, Price__c, Product_Category__c, Description, DisplayUrl, Available_Stock__c, Consumed_Stock__c ,Average_Rating__c, Rating_Count__c FROM Product2 WHERE Id!=:productId AND Product_Category__c=:productCategory ORDER BY Available_Stock__c DESC];
+            Product2 productSelected=[SELECT Id, Product_Category__c FROM Product2 WHERE Id=:productId LIMIT 1];
+            return [SELECT ID, Name, IsActive, Price__c, Product_Category__c, Description, DisplayUrl, Available_Stock__c, Consumed_Stock__c ,Average_Rating__c, Rating_Count__c FROM Product2 WHERE Id!=:productId AND Product_Category__c=:productSelected.Product_Category__c ORDER BY Available_Stock__c DESC];
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
 
-    @AuraEnabled
-    public static List<Rating__c> getAllRatings(String productId){
-        try {
-            // List<Rating__c> ratingRecords = new List<Rating__c>();
-            // for (Rating__c rcc : ratingRecords) {
-            //     RatingDate=(rcc.CreatedDate).date().format();
-            //     System.debug('date=' + (System.now()).date().format());
-            // }
-            // return [SELECT ID, Customer_Name__r.Name, Customer_Name__r.Profile_Pic__c, Rating_Date__c, Review__c, Stars__c FROM Rating__c WHERE Product__c=:productId ORDER BY CreatedDate DESC];
-            List<Rating__c> ratingRecords = [
-            SELECT 
-                ID, 
-                Customer_Name__r.Name,
-                Customer_Name__r.Profile_Pic__c,
-                Rating_Date__c,
-                Review__c,
-                Stars__c
-            FROM 
-                Rating__c 
-            WHERE 
-                Product__c=:productId 
-            ORDER BY 
-                CreatedDate DESC
-        ];
-        
-        for(Rating__c rating : ratingRecords) {
-            // Query Account_Info__c records related to the Account
-            List<Account_Info__c> accountInfoList = [SELECT Id, Profile_Pic__c FROM Account_Info__c WHERE Account__c = :rating.Customer_Name__c LIMIT 1];
-            
-            // Check if any records were returned
-            if(accountInfoList.size() > 0) {
-                // Assign the queried Account_Info__c record to the Rating__c object
-                rating.Customer_Name__r.Profile_Pic__c = accountInfoList[0].Profile_Pic__c;
-            }
-            // Handle the case where no records were returned (optional)
-            else {
-                // Assign a default value or handle the situation accordingly
-                rating.Customer_Name__r.Profile_Pic__c = 'https://raw.githubusercontent.com/gautamsah/GearSpinHub/main/resources/user_nodp2.jpg';
-            }
-        }
-        return ratingRecords;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
 
     @AuraEnabled
     public static List<Product2> getSearchProducts(String search) {
@@ -155,10 +113,26 @@ public class gshAllProducts {
                     products.add((Product2)obj);
                 }
             }
+            sortProductsByRating(products);
             return products;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
 
+    private static void sortProductsByRating(List<Product2> products) {
+        products.sort(new RatingComparator());
+    }
+    
+    public class RatingComparator implements Comparator<Product2> {
+        public Integer compare(Product2 p1, Product2 p2) {
+            if (p1.Average_Rating__c == p2.Average_Rating__c) {
+                return 0;
+            } else if (p1.Average_Rating__c > p2.Average_Rating__c) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
 }

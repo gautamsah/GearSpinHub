@@ -1,0 +1,209 @@
+<apex:page controller="gshOrderInvoiceController" renderAs="pdf" applyHtmlTag="false" applyBodyTag="false" showHeader="false" sidebar="false">
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                /*max-width: 800px;*/
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .order-details {
+                flex: 1;
+                text-align: left;
+            }
+
+            .order-details p {
+                margin: 5px 0;
+            }
+
+            .address-section {
+                margin-top: 5px;
+            }
+
+            .address-section p {
+                margin: 5px 0;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+
+            th, td {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            th {
+                background-color: #f2f2f2;
+                text-align: left;
+            }
+
+            .total-section {
+                margin-top: 20px;
+                text-align: right;
+            }
+
+            .total-section p {
+                margin: 5px 0;
+            }
+            .align-right{
+                text-align: right;
+            }
+            .no-border{
+                border:none;
+            }
+            .right-border{
+                border-right:1px solid #ddd;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header section -->
+            <div class="header">
+            <table>
+                <tr>
+                <td class='no-border'>
+                    <h1> INVOICE </h1>
+                </td>
+                <td class='no-border align-right' style='padding: 0px;'>
+                    <img src="{!$Resource.gshLogo}" alt="Company Logo" width='130px'/>
+                </td>
+                </tr>
+                </table>
+        <!--
+                <div class="order-details">
+                    <p>Order No: {!order.Name}</p>
+                    <p>Order Date: <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                        <apex:param value="{!order.CreatedDate}" />
+                                </apex:outputText>
+                    </p>
+                    <p>Customer Name: {!order.Customer_Name__r.Name}</p>
+                    <p>Customer Email: {!accountEmail}</p>
+                </div> -->
+            <table>
+                <tr>
+                <td class='no-border' style='width: 21%;'>
+                    Order Name:
+                </td>
+                <td class='no-border'>
+                    {!order.Name}
+                </td>
+                </tr>
+                <tr>
+                <td class='no-border'>
+                    Order Date:
+                </td>
+                <td class='no-border'>
+                    <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                        <apex:param value="{!order.CreatedDate}" />
+                                </apex:outputText>
+                </td>
+                </tr>
+                <tr>
+                <td class='no-border'>
+                    Customer Name:
+                </td>
+                <td class='no-border'>
+                    {!order.Customer_Name__r.Name}
+                </td>
+                </tr>
+                <tr>
+                <td class='no-border'>
+                    Customer Email:
+                </td>
+                <td class='no-border'>
+                    {!accountEmail}
+                </td>
+                </tr>
+                </table>
+            </div>
+            <table style='margin-bottom: 30px;'>
+                <tr>
+                <!-- Billing Address -->
+                <td class='no-border right-border' >
+                <div class="address-section">
+                    <h3>Billing Address</h3>
+                    <apex:repeat value="{!billingAddressParts}" var="addressPart">
+                        <p>{!addressPart}</p>
+                    </apex:repeat>
+                </div>
+                </td>
+                <td class='no-border'>
+                <!-- Shipping Address -->
+                <div class="address-section">
+                    <h3>Shipping Address</h3>
+                    <apex:repeat value="{!shippingAddressParts}" var="addressPart">
+                        <p>{!addressPart}</p>
+                    </apex:repeat>
+                </div>
+                </td>
+                </tr>
+            </table>
+            <!-- Order line items section -->
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+                <apex:repeat value="{!orderLineItems}" var="lineItem">
+                    <tr>
+                        <td>{!lineItem.Product__r.Name}</td>
+                        <td>{!lineItem.Color__c}</td>
+                        <td>{!lineItem.Size__c}</td>
+                        <td>{!lineItem.Quantity__c}</td>
+                        <td class='align-right'>
+                        <img src="{!$Resource.RupeeSymbol}" alt="Rupee Symbol" width='7px'/>
+                        {!lineItem.Product__r.Price__c}</td>
+                        <td class='align-right'>
+                        <img src="{!$Resource.RupeeSymbol}" alt="Rupee Symbol" width='7px'/>
+                        {!lineItem.Quantity__c * lineItem.Product__r.Price__c}</td>
+                    </tr>
+                </apex:repeat>
+                <tr>
+                <td colspan='5' class='align-right no-border'>Total: </td>
+                <td class='align-right no-border'>
+                <img src="{!$Resource.RupeeSymbol}" alt="Rupee Symbol" width='7px'/>
+                {!grandTotal}</td>
+                </tr>
+                <tr>
+                <td colspan='5' class='align-right no-border'>Shipping Charges: </td>
+                <td class='align-right no-border'>
+                <img src="{!$Resource.RupeeSymbol}" alt="Rupee Symbol" width='7px'/>
+                {!order.Shipping_Charges__c}</td>
+                </tr>
+                <tr>
+                <td colspan='5' class='align-right'>Grand Amount: </td>
+                <td class='align-right'>
+                <img src="{!$Resource.RupeeSymbol}" alt="Rupee Symbol" width='7px'/>
+                {!order.Total_Amount__c}</td>
+                </tr>
+            </table>
+
+            
+            <div class="total-section">
+                <p class='align-right'><img src="{!$Resource.gshSignature}" alt="Authorised Signature" width='120px'/></p>
+                <p class='align-right' style='border-top:1px solid black;display:inline; padding-top:6px;'>Authorised Signature</p>
+            </div>
+        </div>
+    </body>
+</apex:page>

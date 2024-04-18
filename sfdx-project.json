@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "GearSpin Hub",
+  "name": "Gear Spin Hub",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "59.0"

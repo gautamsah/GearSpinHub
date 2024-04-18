@@ -1,0 +1,14 @@
+.heading{
+    font-size: 32px;
+    font-weight: 600;
+}
+.our-story-text{
+    font-size: 16px;
+    text-align: justify;
+}
+
+.banner-wrapper{
+    height: 150px;
+    background-color: #ebebeb;
+    border-radius: 8px;
+}

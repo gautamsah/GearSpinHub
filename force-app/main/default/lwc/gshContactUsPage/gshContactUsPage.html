@@ -1,0 +1,26 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item class="slds-text-title_caps slds-var-m-vertical_x-large heading">
+            Contact Us
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout horizontal-align="center" vertical-align="center">
+        <lightning-layout-item size="6">
+            <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00D5h000009B5rb" method="POST">
+                <input type=hidden name="orgid" value="00D5h000009B5rb">
+                <input type=hidden name="retURL" value="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/">
+            
+                <label for="name">Name</label><input  id="name" maxlength="80" name="name" size="20" type="text" /><br>
+                <label for="email">Email</label><input  id="email" maxlength="80" name="email" size="20" type="text" /><br>
+                <label for="phone">Phone</label><input  id="phone" maxlength="40" name="phone" size="20" type="text" /><br>
+                <label for="subject">Subject</label><input  id="subject" maxlength="80" name="subject" size="20" type="text" /><br>
+                <label for="description">Description</label><textarea name="description"></textarea><br>
+                <input type="hidden"  id="external" name="external" value="1" /><br>
+                <input type="submit" name="submit">
+            </form>
+        </lightning-layout-item>
+        <lightning-layout-item size="6">
+            <img src="https://raw.githubusercontent.com/gautamsah/GearSpinHub/main/resources/contact_us.jpg" alt="contact us img">
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

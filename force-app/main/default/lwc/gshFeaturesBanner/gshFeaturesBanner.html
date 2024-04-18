@@ -1,28 +1,24 @@
 <template>
     <lightning-layout>
         <lightning-layout-item>
-            <div class="slds-size_3-of-4">
-                <div class="slds-box slds-box_x-small slds-text-align_center slds-m-around_x-small">
+            <div class="slds-size_4-of-4">
+                <div class="slds-box slds-text-align_center slds-m-vertical_small">
                     <!-- Basic Carousel -->
                     <lightning-carousel>
                         <lightning-carousel-image
-                            src = "https://www.lightningdesignsystem.com/assets/images/carousel/carousel-01.jpg"
-                            alternative-text = "First card accessible description."
+                            src = "https://raw.githubusercontent.com/gautamsah/GearSpinHub/main/resources/carousel_img1.jpg"
                             href = "javascript:void(0);">
                         </lightning-carousel-image>
                         <lightning-carousel-image
-                            src = "https://www.lightningdesignsystem.com/assets/images/carousel/carousel-02.jpg"
-                            alternative-text = "Second card accessible description."
+                            src = "https://raw.githubusercontent.com/gautamsah/GearSpinHub/main/resources/carousel_img2.jpg"
                             href = "javascript:void(0);">
                         </lightning-carousel-image>
                         <lightning-carousel-image
-                            src = "https://www.lightningdesignsystem.com/assets/images/carousel/carousel-03.jpg"
-                            alternative-text = "Third card accessible description."
+                            src = "https://raw.githubusercontent.com/gautamsah/GearSpinHub/main/resources/carousel_img3.jpg"
                             href = "javascript:void(0);">
                         </lightning-carousel-image>
                         <lightning-carousel-image
-                            src = "https://www.lightningdesignsystem.com/assets/images/carousel/carousel-03.jpg"
-                            alternative-text = "Fourth card accessible description."
+                            src = "https://raw.githubusercontent.com/gautamsah/GearSpinHub/main/resources/carousel_img4.jpg"
                             href = "javascript:void(0);">
                         </lightning-carousel-image>
                     </lightning-carousel>
@@ -30,11 +26,12 @@
             </div>
         </lightning-layout-item>
     </lightning-layout>
-    <lightning-layout class="ll_main" vertical-align="center" horizontal-align="center">
+    <lightning-layout class="ll-main" vertical-align="center" horizontal-align="center">
 
         <img src="https://raw.githubusercontent.com/gautamsah/GearSpinHub/main/resources/home_bg.jpg" class="bg" alt="">
-        <div class="ll_divbox">
-            <lightning-layout-item size="3">
+        <lightning-layout-item size="12" class="ll-divbox">
+        <!-- <div class="ll-divbox"> --><lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="3">
                 <lightning-layout vertical-align="center" horizontal-align="center">
                     <lightning-layout-item>
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
@@ -49,8 +46,8 @@
                     </lightning-layout-item>
                 </lightning-layout>
             </lightning-layout-item>
-            <lightning-layout-item size="3">
-                <lightning-layout vertical-align="center">
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="3">
+                <lightning-layout vertical-align="center" horizontal-align="center">
                     <lightning-layout-item>
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" viewBox="0 0 24 24">
@@ -64,8 +61,8 @@
                     </lightning-layout-item>
                 </lightning-layout>
             </lightning-layout-item>
-            <lightning-layout-item size="3">
-                <lightning-layout vertical-align="center">
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="3">
+                <lightning-layout vertical-align="center" horizontal-align="center">
                     <lightning-layout-item>
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" viewBox="0 0 24 24">
@@ -79,8 +76,8 @@
                     </lightning-layout-item>
                 </lightning-layout>
             </lightning-layout-item>
-            <lightning-layout-item size="3">
-                <lightning-layout vertical-align="center">
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="3">
+                <lightning-layout vertical-align="center" horizontal-align="center">
                     <lightning-layout-item>
                         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" viewBox="0 0 24 24">
@@ -94,6 +91,7 @@
                     </lightning-layout-item>
                 </lightning-layout>
             </lightning-layout-item>
-        </div>
+        </lightning-layout>
+    </lightning-layout-item>
     </lightning-layout>
 </template>

@@ -7,8 +7,8 @@
             <button onclick={handleSearchClick}>Search</button>
         </lightning-layout-item>
     </lightning-layout>
-    <lightning-layout class="slds-gutters_large">
-        <lightning-layout-item size="2">
+    <lightning-layout class="slds-gutters_small" horizontal-align="center">
+        <lightning-layout-item size="3" class="slds-var-p-horizontal_large">
             <lightning-layout class="category-nav" multiple-rows="true">
                 <lightning-layout-item size="12" class="slds-text-title_caps slds-var-p-horizontal_large center-align">
                     Categories To Explore:
@@ -19,17 +19,23 @@
                 </lightning-layout-item>
             </lightning-layout>
         </lightning-layout-item>
-        <lightning-layout-item size="0.5">
-        </lightning-layout-item>
+        <!-- <lightning-layout-item size="0.5">
+        </lightning-layout-item> -->
         <lightning-layout-item size="9">
-            <lightning-layout multiple-rows="true" class="slds-gutters_large">
+            <!-- <lightning-layout multiple-rows="true" class="slds-gutters_small"> -->
+            <lightning-layout multiple-rows="true">
                 <lightning-layout-item size="4" key={product.Id} class="slds-col slds-var-m-bottom_x-large"
                     for:each={searchResults} for:item="product">
                     <c-gsh-product-card product-id={product.Id} product-name={product.Name} product-price={product.Price__c}
-                        product-rating={product.Average_Rating__c} product-image={product.DisplayUrl}
+                        product-rating={product.Average_Rating__c} product-image={product.DisplayUrl} product-consumed={product.Consumed_Stock__c} product-available={product.Available_Stock__c}
                         product-category={product.Product_Category__c} product-description={product.Description}
                         onproductclick={receivedCartClick}>
                     </c-gsh-product-card>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout if:true={noData}>
+                <lightning-layout-item class="slds-align_absolute-center slds-text-heading_large">
+                    No Product Exists......
                 </lightning-layout-item>
             </lightning-layout>
         </lightning-layout-item>

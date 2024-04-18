@@ -1,15 +1,44 @@
 <template>
-    <div>
-        <lightning-button label="Show Modal" onclick={openModal}></lightning-button>
-        <div class={modalClass}>
-            <div class="modal-content">
-                <!-- Your content goes here -->
-                <p>This is the content of the modal.</p>
+    <div class="slds-box">
+        <div class="slds-box slds-grid slds-gutters">
+            <div class="slds-col" style="border-right:1px solid #ccc">
+                <lightning-card title="Upload Image" icon-name="utility:image">
+                    <div>
+                        <lightning-input label="" accept="image/png,image/jpeg" name="file uploader"
+                            onchange={handleFilesChange} type="file">
+                        </lightning-input>
+                    </div><br />
+                    <div class="slds-text-body_small slds-text-color_error">{fileName}
+                        <template if:true={showLoadingSpinner}>
+                            <lightning-spinner alternative-text="Uploading......" size="medium"></lightning-spinner>
+                        </template>
+                    </div><br />
+                    <div>
+                        <template if:false={data}>
+                            <lightning-button class="slds-m-top--medium" label="Upload Image" onclick={handleSave}
+                                variant="brand" disabled={isTrue}></lightning-button>
+                        </template>
+                        <template if:true={data}>
+                            <lightning-button class="slds-m-top--medium" label="Replace Image" onclick={handleReplace}
+                                variant="brand" disabled={isTrue}></lightning-button>
+                        </template>
+
+                    </div>
+                    <br /><br />
+                </lightning-card>
             </div>
-            <footer class="modal-footer">
-                <lightning-button label="Close" onclick={closeModal}></lightning-button>
-            </footer>
+            <div class="slds-col">
+                <lightning-card title="Preview of Uploaded Image" icon-name="utility:image">
+                    <div style="width: auto;">
+                        <template if:false={data}>
+                            <i class="slds-text-color_error">No image uploaded!</i>
+                        </template>
+                        <template if:true={data}>
+                            <img src={data} width="150">
+                        </template>
+                    </div>
+                </lightning-card>
+            </div>
         </div>
-        <div class={backdropClass} onclick={closeModal}></div>
     </div>
 </template>

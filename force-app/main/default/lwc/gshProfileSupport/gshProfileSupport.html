@@ -1,0 +1,30 @@
+<template>
+    <lightning-layout class="container" multiple-rows="true">
+        <template for:each={allCases} for:item="item">
+            <lightning-layout-item key={item.Id} size="6" class="slds-col slds-var-m-bottom_large slds-var-p-right_large">
+                <div class="case">
+                    <div class="title">Case No : {item.CaseNumber}</div>
+                    <div class="details">
+                        <!-- <p><span>Email:</span> {item.displayedEmail}</p> -->
+                        <p><span>Subject:</span> {item.Subject}</p>
+                        <template lwc:if={item.closed}>
+                            <p><span>Status:</span> <span style="color: green;">{item.Status}</span></p>
+                        </template>
+                        <template lwc:else>
+                            <p><span>Status:</span> {item.Status}</p>
+                        </template>
+                        <p><span>Created Date:</span> {item.formattedCreatedDate}</p>
+                        <template lwc:if={item.closed}>
+                            <p><span>Closed Date:</span> {item.formattedClosedDate}</p>
+                        </template>
+                        <template lwc:if={item.showEscalated}>
+                            <c-gsh-button button-label="Escalate Case" button-name="escalateCase"
+                                onclickbutton={handleElevate} data-id={item.Id}
+                                variant='addtocart'></c-gsh-button>
+                        </template>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </template>
+    </lightning-layout>
+</template>

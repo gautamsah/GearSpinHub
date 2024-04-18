@@ -11,7 +11,7 @@
 }
 
 .search-container button {
-    padding: 8px 16px;
+    padding: 9px 16px;
     background-color: #ff0000;
     color: white;
     border: none;
@@ -19,6 +19,10 @@
     cursor: pointer;
     font-size: 16px;
     margin-left: 8px;
+}
+.search-container button:hover {
+    background-color: #bb0000;
+    color: white;
 }
 
 /* categoryNav.css */

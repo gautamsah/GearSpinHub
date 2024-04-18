@@ -72,9 +72,10 @@ public without sharing class gshPortalUserRegisteration {
     public static String createCommUser(String firstName , String lastName , String emailId ,  String contactId, String profileId){
         try{
             system.debug(UserInfo.getLocale());
+            
             system.debug('FirstName : '+firstName+' | LastName : '+lastName+' | '+' Email : '+emailId+ ' | ContactId : '+contactId+' | Profile Id : '+profileId);
             User communityUser = new User(FirstName = firstName, LastName = lastName,Email = emailId,ContactId = contactId,
-                                            ProfileId = profileId,UserName = emailId,Alias = firstName,CommunityNickName = firstName,TimeZoneSidKey = 'Asia/Colombo',
+                                            ProfileId = profileId,UserName = emailId,Alias = firstName,CommunityNickName = emailId,TimeZoneSidKey = 'Asia/Colombo',
                                             LocaleSidKey =  'en_US',EmailEncodingKey = 'UTF-8',LanguageLocaleKey = 'en_US' );
             insert communityUser;
             system.debug('Registered Successfully! User Id is: '+communityUser.Id);
@@ -88,4 +89,3 @@ public without sharing class gshPortalUserRegisteration {
         }
     }
 }
-

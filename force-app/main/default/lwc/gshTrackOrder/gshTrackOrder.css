@@ -1,5 +1,40 @@
 .heading{
     font-size: 32px;
     font-weight: 600;
-    margin: 0 0 24px 0;
+    /* margin: 0 0 24px 0; */
+}
+.slds-progress ol li {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+    align-items: center;
+}
+.status-wrapper{
+    justify-content: space-evenly;
+}
+
+.icon_container{
+    text-align: center;
+    font-size: 18px;
+}
+.status-cancel{
+    color: red;
+}
+.search-button{
+    width: 80px;
+    background-color: red;
+    color: white;
+    border: 1px solid rgb(255, 0, 0);
+    border-radius: 5px;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+.search-button:hover {
+    background-color: rgb(200, 0, 0);
+    border: 1px solid rgb(200, 0, 0);
+}
+.search-container{
+    /* display: flex; */
+    /* position: relative; */
 }

@@ -2,6 +2,7 @@
     <lightning-layout multiple-rows="true" class="card_wrapper" onclick={openproductdetail}>
         <lightning-layout-item size="12" onclick={handleCardClick} class="card_img_container">
             <img class="card_img" src={productImage} width="100%" height="300px" />
+            <div class="sold_out_label" if:true={soldOutStatus}>Sold Out</div>
         </lightning-layout-item>
         <lightning-layout-item size="12">
             <lightning-layout multiple-rows="true" class="slds-p-around_large">

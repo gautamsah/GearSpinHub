@@ -13,13 +13,11 @@
     font-weight: 600;
 }
 
-/* Cart Container */
 .cart-container {
     width: 100%;
     margin: 20px auto;
 }
 
-/* Custom Table Styling */
 .custom-table {
     width: 100%;
     border-collapse: collapse;
@@ -39,42 +37,25 @@
     background-color: #fafafa;
 }
 
-/* Table Rows */
 .custom-table tbody tr:hover {
     background-color: #f5f5f5;
 }
 
-/* Quantity Column */
 .quantity-column {
     width: 160px;
-    /* Set a fixed width for the quantity column */
     text-align: center;
-    /* Center-align the content */
 }
 
-/* Quantity Button */
 .quantity-button {
     border: none;
     background-color: transparent;
-    padding: 0;
     cursor: pointer;
 }
 
-/* Quantity Text */
 .quantity {
     width: 35px;
     display: inline-block;
     text-align: center;
-}
-
-/* Action Buttons */
-.slds-button-icon {
-    cursor: pointer;
-}
-
-/* Hover effect on Action Buttons */
-.slds-button-icon:hover {
-    background-color: #ddd;
 }
 
 .action-column {
@@ -84,12 +65,11 @@
 .img-box {
     width: 90px;
     display: inline-block;
-    margin-right: 8px;
+    /* margin-right: 8px; */
     pointer-events: none;
 }
 
 .color-selection {
-    border: 1px solid #f2f2f2;
     border: 1px solid #c9c9c9;
     border-radius: 3px;
     width: 70px;
@@ -137,12 +117,15 @@
 }
 .shipping-free{
     text-decoration: line-through;
-    margin-right: 7px;
+    /* margin-right: 7px; */
     color: red;
 }
 .shipping-address{
     font-size: 14px;
     text-align: end;
+}
+.red-text{
+    color: red;
 }
 .change-address{
     display: flex;
@@ -162,7 +145,6 @@
 }
 
 .payment-method-select {
-    /* width: 100%; */
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ced4da;
@@ -174,4 +156,78 @@
 .productName:hover{
     text-decoration: underline;
     color: red;
+}
+
+.checkout-button{
+    width: 100%;
+    background-color: #ff0000;
+    color: white;
+    border: 1px solid #ff0000;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+}
+.checkout-button:hover {
+    background-color: rgb(200, 0, 0);
+    border: 1px solid rgb(200, 0, 0);
+}
+.checkout-button:disabled {
+    background-color: #ccc; 
+    border-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 600px;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 10px;
+    text-align: right;
+}
+.otp-autoclose{
+    font-size: 10px;
+    color: red;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: none;
+}
+
+.fade-in-open {
+    display: block;
+}
+
+.fade-in-close {
+    display: none;
+}
+.payment-title{
+    font-size: 24px;
+    text-align: center;
+    font-weight: 600;
+}
+.otp-email{
+    color:#7b7b7b;
 }

@@ -1,14 +1,13 @@
-
 .ll-main{
     position: relative;
 }
 
-.ll_divbox{
+.ll-divbox{
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* width: 80%; */
 }
 .bg {
     z-index: -1;
@@ -21,4 +20,3 @@
 .icon-img {
     min-width: 20px;
 }
-

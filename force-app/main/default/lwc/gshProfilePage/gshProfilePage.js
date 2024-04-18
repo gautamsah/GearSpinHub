@@ -5,20 +5,22 @@ import userId from "@salesforce/user/Id";
 
 export default class GshProfilePage extends LightningElement {
     userIdvar = userId;
-    @track isDashboardSelected = true;
-    @track isPersonalInfoSelected = false;
+    @track isPersonalInfoSelected = true;
     @track isOrdersSelected = false;
     @track isAddressSelected = false;
     @track isReviewsSelected = false;
+    @track isWalletSelected = false;
     @track isSupportTicketSelected = false;
-
+    isNotLoaded=true;
     @track selectedTab = 'dashboard';
 
     @track accountDetails;
     allCustomerOrders;
     allOrdersItems;
     allCustomerRatings;
-    allProducts;
+    allCases;
+    // allProducts;
+    walletBalance;
 
     @track isEditing = false;
     @track firstName = 'John';
@@ -33,14 +35,20 @@ export default class GshProfilePage extends LightningElement {
             this.allCustomerOrders = result['customerOrders'].map(item => ({ ...item }));
             this.allOrdersItems = result['ordersItems'].map(item => ({ ...item }));
             this.allCustomerRatings = result['userRatings'].map(item => ({ ...item }));
-            this.allProducts = result['allProducts'].map(item => ({ ...item }));
+            this.allCases = result['userCases'].map(item => ({ ...item }));
+            // this.allProducts = result['allProducts'].map(item => ({ ...item }));
+            // if (result['userCases']) {
+                // this.allCases = result['userCases'].map(item => ({ ...item }));
+            // }
             this.walletBalance = parseFloat(this.accountDetails.Wallet_Amount__c);
             this.formatDateFunc();
+            this.isNotLoaded=false;
             console.log(this.accountDetails);
             console.log(JSON.stringify(this.allCustomerOrders));
             console.log(JSON.stringify(this.allOrdersItems));
             console.log(JSON.stringify(this.allCustomerRatings));
-            console.log(JSON.stringify(this.allProducts));
+            console.log(JSON.stringify(this.allCases));
+            // console.log(JSON.stringify(this.allProducts));
         })
             .catch((error) => {
                 // console.log(error);
@@ -54,7 +62,7 @@ export default class GshProfilePage extends LightningElement {
         this.resetSections();
         switch (section) {
             case 'dashboard':
-                this.isDashboardSelected = true;
+                this.isWalletSelected = true;
                 break;
             case 'personal-info':
                 this.isPersonalInfoSelected = true;
@@ -77,7 +85,7 @@ export default class GshProfilePage extends LightningElement {
     }
 
     resetSections() {
-        this.isDashboardSelected = false;
+        this.isWalletSelected = false;
         this.isPersonalInfoSelected = false;
         this.isOrdersSelected = false;
         this.isAddressSelected = false;
@@ -85,12 +93,12 @@ export default class GshProfilePage extends LightningElement {
         this.isSupportTicketSelected = false;
     }
 
-    get DashboardClass() {
-        return this.isDashboardSelected ? 'profile-section profile-section-first profile-section-selected' : 'profile-section profile-section-first';
+    get WalletClass() {
+        return this.isWalletSelected ? 'profile-section  profile-section-selected' : 'profile-section ';
     }
 
     get PersonalInfoClass() {
-        return this.isPersonalInfoSelected ? 'profile-section profile-section-selected' : 'profile-section';
+        return this.isPersonalInfoSelected ? 'profile-section profile-section-first profile-section-selected' : 'profile-section profile-section-first';
     }
 
     get OrdersClass() {
@@ -106,7 +114,7 @@ export default class GshProfilePage extends LightningElement {
     }
 
     get SupportTicketClass() {
-        return this.isSupportTicketSelected ? 'profile-section selected' : 'profile-section';
+        return this.isSupportTicketSelected ? 'profile-section profile-section-selected' : 'profile-section';
     }
 
 
@@ -136,8 +144,8 @@ export default class GshProfilePage extends LightningElement {
                 console.log(JSON.stringify(formattedDate));
                 console.log(JSON.stringify(review.formattedDate));
             }
-            review.modalFeedback=review.Review__c;
-            review.modalStar=review.Stars__c;
+            // review.modalFeedback=review.Review__c;
+            // review.modalStar=review.Stars__c;
             return review;
         });
     }

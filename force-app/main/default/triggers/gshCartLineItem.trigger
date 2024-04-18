@@ -49,4 +49,3 @@ trigger gshCartLineItem on Cart_Line_Item__c (after insert, after update, after 
         }
     }
 }
-    

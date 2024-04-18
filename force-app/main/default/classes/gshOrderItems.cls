@@ -53,9 +53,11 @@ public without sharing class gshOrderItems {
                     update productsToUpdate;
                     insert orderItems;
                     delete cartItems;
-
+                    // gshOrderInvoiceController controllerInstance = new gshOrderInvoiceController();
+                    // String pdfGenerationResponse = controllerInstance.generatePDF(newOrder);
+                    // system.debug('pdfGenerationResponse '+pdfGenerationResponse);
                     system.debug('Order sucessfull');
-                    return 'Successful';
+                    return newOrder.Id;
                     }
                 else{
                     system.debug('Order failed');
@@ -70,7 +72,9 @@ public without sharing class gshOrderItems {
     @AuraEnabled(cacheable=true)
     public static Map<String, Object> getProfilePageData(String userId) {
         Map<String, Object> result = new Map<String, Object>();
+        User userDetails=[SELECT ID,FirstName, LastName, Email, Username, CommunityNickname, Phone FROM User WHERE Id=:userId LIMIT 1];
         ID accId=ApexUtilities.getAccountID(userId);
+        Id contactId=[SELECT Id FROM Contact WHERE AccountId=:accId].Id;
 
         // Account accountDetails = [SELECT Id, Name, ... FROM Account WHERE Id IN (SELECT AccountId FROM User WHERE Id = :userId)];
         Account accountDetails = [SELECT ID,FirstName,LastName, Name, PersonEmail, Phone, Gender__c, ShippingStreet,  ShippingCity, ShippingState,  ShippingPostalCode, Wallet_Amount__c, BillingStreet, BillingCity, BillingState, BillingPostalCode FROM Account WHERE Id=:accId LIMIT 1];
@@ -83,13 +87,16 @@ public without sharing class gshOrderItems {
         }
         List<Order_Line_Item__c> orderItems = [SELECT ID, Name,Customer_Order__c,Product__c,Product__r.Name, Color__c,Size__c,Quantity__c FROM Order_Line_Item__c WHERE Customer_Order__c IN :customerOrdersIds];
         List<Rating__c> userRatings = [SELECT ID, Customer_Name__c,Product__c,Rating_Date__c,Review__c,Stars__c,Product__r.Name, Product__r.DisplayUrl FROM Rating__c WHERE Customer_Name__c=:accId ORDER BY CreatedDate DESC];
-        List<Product2> allProducts = [SELECT ID, Name, IsActive, Price__c, Product_Category__c, Description, DisplayUrl, Available_Stock__c, Consumed_Stock__c ,Average_Rating__c, Rating_Count__c FROM Product2];
+        // List<Product2> allProducts = [SELECT ID, Name, IsActive, Price__c, Product_Category__c, Description, DisplayUrl, Available_Stock__c, Consumed_Stock__c ,Average_Rating__c, Rating_Count__c FROM Product2];
+        List<Case> allCases = [SELECT Id, ContactEmail, AccountId,SuppliedEmail,Subject,Status,ContactId, CreatedDate,ClosedDate, CaseNumber   FROM Case WHERE SuppliedEmail=:userDetails.Email OR ContactEmail=:userDetails.Email ORDER BY CreatedDate DESC];
 
         result.put('accountDetails', accountDetails);
         result.put('customerOrders', customerOrders);
         result.put('ordersItems', orderItems);
         result.put('userRatings', userRatings);
-        result.put('allProducts', allProducts);
+        // result.put('allProducts', allProducts);
+        result.put('userCases', allCases);
+
         
         return result;
     }
@@ -97,11 +104,9 @@ public without sharing class gshOrderItems {
     @AuraEnabled
     public static string updateProfileAddress(Account accountDetails) {
         try {
-            // Fetch the Account record from the database
             Account fetchAcc = [SELECT Id, ShippingStreet, ShippingCity, ShippingState, ShippingPostalCode, 
                                 BillingStreet, BillingCity, BillingState, BillingPostalCode 
                                 FROM Account WHERE Id = :accountDetails.Id LIMIT 1];
-            // Perform null checks for each field and update only if the field is not null
             // if (accountDetails.ShippingStreet != null) {
                 fetchAcc.ShippingStreet = accountDetails.ShippingStreet;
             // }
@@ -164,7 +169,7 @@ public without sharing class gshOrderItems {
         try {
             User userinfo=[SELECT ID,FirstName, LastName, Email, Username, CommunityNickname, Phone FROM User WHERE Id=:UserInfo.getUserId() LIMIT 1];
                 userinfo.FirstName = accountDetails.FirstName;
-                userinfo.CommunityNickname = accountDetails.FirstName;
+                userinfo.CommunityNickname = accountDetails.PersonEmail;
                 userinfo.LastName = accountDetails.LastName;
                 userinfo.Email = accountDetails.PersonEmail;
                 userinfo.Username = accountDetails.PersonEmail;
@@ -184,82 +189,124 @@ public without sharing class gshOrderItems {
     try {
         Id accId = [SELECT AccountId FROM User WHERE Id = :UserInfo.getUserId()].AccountId;
         Account accountDetails= [SELECT Id, Wallet_Amount__c FROM Account WHERE Id=:accId LIMIT 1];
-        // Retrieve the customer order record
         Customer_Order__c customerOrder = [SELECT Id, Order_Status__c, Total_Amount__c FROM Customer_Order__c WHERE Id=:orderId LIMIT 1];
         customerOrder.Order_Status__c = 'Cancelled';
 
-        accountDetails.Wallet_Amount__c+=customerOrder.Total_Amount__c;
-        // Retrieve order line items associated with the customer order
-        List<Order_Line_Item__c> orderItems = [SELECT Id, Product__c, Quantity__c FROM Order_Line_Item__c WHERE Customer_Order__c = :orderId];
+        // accountDetails.Wallet_Amount__c+=customerOrder.Total_Amount__c;
+        // List<Order_Line_Item__c> orderItems = [SELECT Id, Product__c, Quantity__c FROM Order_Line_Item__c WHERE Customer_Order__c = :orderId];
 
-        // Map to store product Ids and their updated quantities
-        Map<Id, Decimal> productIdToQuantity = new Map<Id, Decimal>();
+        // Map<Id, Decimal> productIdToQuantity = new Map<Id, Decimal>();
 
-        // Iterate over order line items to update product quantities
-        for (Order_Line_Item__c orderLineItem : orderItems) {
-            // Get product Id and quantity from the order line item
-            Id productId = orderLineItem.Product__c;
-            Decimal quantity = orderLineItem.Quantity__c;
+        // for (Order_Line_Item__c orderLineItem : orderItems) {
+        //     Id productId = orderLineItem.Product__c;
+        //     Decimal quantity = orderLineItem.Quantity__c;
 
-            // Update product quantity in the map
-            if (productIdToQuantity.containsKey(productId)) {
-                // If the product Id already exists in the map, add the quantity
-                quantity += productIdToQuantity.get(productId);
-            }
-            productIdToQuantity.put(productId, quantity);
-        }
+        //     if (productIdToQuantity.containsKey(productId)) {
+        //         quantity += productIdToQuantity.get(productId);
+        //     }
+        //     productIdToQuantity.put(productId, quantity);
+        // }
 
-        // Retrieve products and update their quantities
-        List<Product2> productsToUpdate = [SELECT Id, Available_Stock__c, Consumed_Stock__c FROM Product2 WHERE Id IN :productIdToQuantity.keySet()];
-        for (Product2 product : productsToUpdate) {
-            // Update product quantity based on the map values
-            product.Available_Stock__c += productIdToQuantity.get(product.Id);
-            product.Consumed_Stock__c -= productIdToQuantity.get(product.Id);
-        }
+        // List<Product2> productsToUpdate = [SELECT Id, Available_Stock__c, Consumed_Stock__c FROM Product2 WHERE Id IN :productIdToQuantity.keySet()];
+        // for (Product2 product : productsToUpdate) {
+        //     product.Available_Stock__c += productIdToQuantity.get(product.Id);
+        //     product.Consumed_Stock__c -= productIdToQuantity.get(product.Id);
+        // }
 
-        // Update products
-        update productsToUpdate;
+        // update productsToUpdate;
 
-        // Update customer order
         update customerOrder;
 
-        update accountDetails;
+        // update accountDetails;
         return 'Successful';
     } catch (Exception e) {
         throw new AuraHandledException(e.getMessage());
     }
 }
 
+
+
     @AuraEnabled
     public static Map<String, Object> getOrderDetailData(String orderId) {
-        Map<String, Object> result = new Map<String, Object>();
-        Id accId = [SELECT AccountId FROM User WHERE Id = :UserInfo.getUserId()].AccountId;
-        Customer_Order__c customerOrder=[SELECT ID,Name,Customer_Name__c,Order_Status__c,Payment_Mode__c,Shipping_Address__c,Billing_Address__c,Total_Amount__c,Shipping_Charges__c  FROM Customer_Order__c WHERE Id=:orderId LIMIT 1];
+    Map<String, Object> result = new Map<String, Object>();
+    Id accId = [SELECT AccountId FROM User WHERE Id = :UserInfo.getUserId()].AccountId;
+    try {
+        Customer_Order__c customerOrder = [SELECT ID, Name, Customer_Name__c, Order_Status__c, Payment_Mode__c, Shipping_Address__c, Billing_Address__c, Total_Amount__c, Shipping_Charges__c  
+                                            FROM Customer_Order__c 
+                                            WHERE Id = :orderId AND Customer_Name__c = :accId 
+                                            LIMIT 1];
         
-        List<Order_Line_Item__c> orderItems = [SELECT ID, Name,Customer_Order__c,Product__c,Product__r.Name, Product__r.DisplayUrl,Product__r.Price__c, Product__r.Product_Category__c, Color__c,Size__c,Quantity__c FROM Order_Line_Item__c WHERE Customer_Order__c =:customerOrder.Id];
-        List<Rating__c> userRatings = [SELECT ID, Customer_Name__c,Product__c,Rating_Date__c,Review__c,Stars__c,Product__r.Name, Product__r.DisplayUrl FROM Rating__c WHERE Customer_Name__c=:accId ORDER BY CreatedDate DESC];
+        List<Order_Line_Item__c> orderItems = [SELECT ID, Name, Customer_Order__c, Product__c, Product__r.Name, Product__r.DisplayUrl, Product__r.Price__c, Product__r.Product_Category__c, Color__c, Size__c, Quantity__c 
+                                                FROM Order_Line_Item__c 
+                                                WHERE Customer_Order__c = :customerOrder.Id];
+        List<Rating__c> userRatings = [SELECT ID, Customer_Name__c, Product__c, Rating_Date__c, Review__c, Stars__c, Product__r.Name, Product__r.DisplayUrl 
+                                        FROM Rating__c 
+                                        WHERE Customer_Name__c = :accId 
+                                        ORDER BY CreatedDate DESC];
         List<Product2> allProducts = [SELECT ID, Name, IsActive, Price__c, Product_Category__c, Description, DisplayUrl, Available_Stock__c, Consumed_Stock__c ,Average_Rating__c, Rating_Count__c FROM Product2];
+        
 
-        // // Create a map to store reviewed product IDs for the user
-        // Map<Id, Boolean> reviewedProducts = new Map<Id, Boolean>();
-        // for (Rating__c rating : userRatings) {
-        //     reviewedProducts.put(rating.Product__c, true);
-        // }
-
-        // // Iterate over order items and set showAddReview based on user's review history
-        // for (Order_Line_Item__c item : orderItems) {
-        //     if (reviewedProducts.containsKey(item.Product__c)) {
-        //         item.showAddReview = false; // User has reviewed this product
-        //     } else {
-        //         item.showAddReview = true; // User has not reviewed this product
-        //     }
-        // }
         result.put('customerOrder', customerOrder);
         result.put('ordersItems', orderItems);
         result.put('userRatings', userRatings);
         result.put('allProducts', allProducts);
-        
-        return result;
+
+    } catch (Exception e) {
+        result.put('error', 'No order found with the provided ID or unauthorized access.');
+    }
+    
+    return result;
     }
 
+
+
+    @AuraEnabled
+    public static string updateReview(ID recordId, String feedback, Decimal star){
+        try {
+            Rating__c review =[SELECT Stars__c, Review__c FROM Rating__c WHERE Id=:recordId LIMIT 1];
+            review.Stars__c=star;
+            review.Review__c=feedback;
+            update review;
+            return 'Successful';
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled
+    public static string createReview(ID productId, String feedback, Decimal star){
+        try {
+            Id accId = [SELECT AccountId FROM User WHERE Id = :UserInfo.getUserId()].AccountId;
+
+            List<Rating__c> reviewFound =[SELECT Id FROM Rating__c WHERE Customer_Name__c=:accId AND Product__c=:productId];
+            if (reviewFound.isEmpty()) {
+                Rating__c review = new Rating__c();
+                review.Customer_Name__c=accId;
+                review.Product__c=productId;
+                review.Stars__c=star;
+                review.Review__c=feedback;
+                insert review;
+                return 'Successful';
+            }
+            else{
+                return 'Already Exists';
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled(cacheable=false)
+    public static String updateCase(String caseId) {
+        try {
+            Case c = [SELECT Id, Status FROM Case WHERE Id = :caseId LIMIT 1];
+            if(c.Status != 'Escalated') {
+                c.Status = 'Escalated';
+                update c;
+                return 'Successful';
+            }
+            return 'Error';
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }

@@ -7,6 +7,7 @@ export default class GshCategoriesProducts extends LightningElement {
     userId = userId; // Replace 'yourUserId' with the actual user ID
     allProducts; // Assuming allProducts is initialized with your product data
     displayedProducts;
+    trendingProducts;
     isLoaded = true;
     @track headingText='New Arrivals';
     // Slice the array to display only the first 4 products
@@ -21,6 +22,7 @@ export default class GshCategoriesProducts extends LightningElement {
             console.log(JSON.stringify(result));
             this.allProducts = result;
             this.displayedProducts = this.allProducts.slice(0, 4);
+            this.trendingProducts=this.allProducts.sort((a, b) => (b.Consumed_Stock__c*b.Average_Rating__c) - (a.Consumed_Stock__c*a.Average_Rating__c)).slice(0, 4);
             this.isLoaded = false;
         })
             .catch((error) => {

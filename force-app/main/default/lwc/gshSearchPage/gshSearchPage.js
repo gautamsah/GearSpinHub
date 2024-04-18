@@ -44,11 +44,16 @@ export default class GshSearchPage extends NavigationMixin(LightningElement) {
             this.template.querySelector('button').click();
         }
     }
-
+    noData=false;
     searchFunction(){
         getSearchProducts({ search: this.searchQuery })
             .then(result => {
-                this.searchResults = result;
+                if (result && result.length === 0) {
+                    this.noData = true;
+                }
+                else{
+                    this.searchResults = result;
+                }
                 console.log(JSON.stringify(result));
             })
             .catch(error => {

@@ -3,11 +3,16 @@
         <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
     </div> -->
     <lightning-layout vertical-align="center">
-        <lightning-layout-item class="slds-text-title_caps slds-var-m-horizontal_large heading">
+        <lightning-layout-item class="slds-text-title_caps slds-var-m-vertical_large heading">
             Reviews and Ratings
         </lightning-layout-item>
     </lightning-layout>
-    <lightning-layout>
+    <lightning-layout if:false={reviewExists} class="slds-m-bottom_large">
+        <lightning-layout-item class="slds-align_absolute-center slds-text-heading_medium slds-var-m-bottom_x-large">
+            There is No Reviews at the moment.
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout if:true={reviewExists} class="slds-m-bottom_large slds-border_bottom slds-var-p-horizontal_medium">
         <lightning-layout-item class="scrollable-section">
             <lightning-layout multiple-rows="true" class="slds-var-p-vertical_medium" for:each={allReviews} for:item="review" key={review.id}>
                 <lightning-layout-item size="1" class="img-container">

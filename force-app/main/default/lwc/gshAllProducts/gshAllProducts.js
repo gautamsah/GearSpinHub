@@ -1,7 +1,6 @@
 import { LightningElement } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import getAllProducts from '@salesforce/apex/gshAllProducts.getAllProducts';
-// import addToCart from '@salesforce/apex/gshCartItems.addToCart';
 import userId from "@salesforce/user/Id";
 
 export default class GshAllProducts extends NavigationMixin(LightningElement) {
@@ -11,7 +10,6 @@ export default class GshAllProducts extends NavigationMixin(LightningElement) {
     userIdvar = userId;
     connectedCallback() {
         getAllProducts().then((result) => {
-            console.log(JSON.stringify(result));
             this.allProducts = result;
             this.allProductsCount=this.allProducts.length;
             this.isLoaded = false;
@@ -20,21 +18,9 @@ export default class GshAllProducts extends NavigationMixin(LightningElement) {
                 console.log(error);
             });
     }
-    // receivedCartClick(event){
-    //     console.log(event.detail.productId)
-
-    //     addToCart({productId:event.detail.productId ,userId: this.userIdvar}).then((result) => {
-    //             console.log(JSON.stringify(result));
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    // }
 
     receivedCartClick(event) {
-        console.log('User id is: ', this.userIdvar);
         const productId = event.detail.productId;
-        console.log('Product Id: ', productId);
         addToCart({ productId: productId, userId: this.userIdvar })
             .then((result) => {
                 console.log(JSON.stringify(result));
@@ -43,9 +29,4 @@ export default class GshAllProducts extends NavigationMixin(LightningElement) {
                 console.error(error);
             });
     }
-
-    disconnectedCallback() {
-        console.log("Cart Updated")
-    }
-
 }

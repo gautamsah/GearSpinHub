@@ -7,10 +7,10 @@
             Related Products
         </lightning-layout-item>
     </lightning-layout>
-    <lightning-layout multiple-rows="true" class="slds-gutters_large slds-var-m-top_x-large">
+    <lightning-layout multiple-rows="true" class="slds-gutters_small slds-var-m-top_x-large slds-border_bottom">
         <lightning-layout-item size="3" key={product.Id} class="slds-col slds-var-m-bottom_xx-large" for:each={displayedProducts}
             for:item="product" onclick={handleCardClick}>
-            <c-gsh-product-card product-id={product.Id} product-name={product.Name} product-price={product.Price__c} product-rating={product.Average_Rating__c} 
+            <c-gsh-product-card product-id={product.Id} product-name={product.Name} product-price={product.Price__c} product-rating={product.Average_Rating__c} product-consumed={product.Consumed_Stock__c} product-available={product.Available_Stock__c}
             product-image={product.DisplayUrl} product-category={product.Product_Category__c}  product-description={product.Description} onproductclick={receivedCartClick}>
             </c-gsh-product-card>
         </lightning-layout-item>

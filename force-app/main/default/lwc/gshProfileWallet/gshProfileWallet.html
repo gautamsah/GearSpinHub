@@ -1,0 +1,47 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item size="6">
+            <lightning-layout class="container" multiple-rows="true">
+                <lightning-layout-item size="12" style="font-size: 20px;" class="slds-var-m-bottom_medium">
+                Account Balance: ₹ <span style="color: green;">{accountBalance}</span>
+                </lightning-layout-item>
+                <lightning-layout-item class="transaction" size="12">
+                    <lightning-combobox class="slds-var-m-bottom_small" name="transactionType" label="Transaction Type" value={selectedTransactionType} options={transactionOptions} onchange={handleTransactionChange}></lightning-combobox>
+                    <lightning-input class="slds-var-m-bottom_small" type="number" label={inputLabel} value={transactionAmount} onchange={handleAmountChange} min="0"></lightning-input>
+                    <template if:true={transactionButtonLabel}>
+                    <lightning-button style="width: max-content;" label={transactionButtonLabel} onclick={performTransaction}></lightning-button>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout if:true={modalActive}>
+        <lightning-layout-item>
+            <div class={modalClass}>
+                <div class="modal-content">
+                    <div class="payment-title slds-var-m-bottom_large">
+                        Transaction Verification
+                    </div>
+                    <div class="otp-email slds-var-m-bottom_medium">
+                        An OTP will be sent to your E-Mail Id
+                        <strong> {accountEmail}</strong>. Please check the spam folder as well!
+                    </div>
+                    <div class="slds-var-m-bottom_medium">
+                        <lightning-button title="Generate OTP" onclick={generateOtp} disabled={genButtonDisabled}  label={genButtonLabel}></lightning-button>
+                    </div>
+                    <div>
+                        <lightning-input type="tel" label="Enter Your Otp:" onchange={handleOtpInputChange} placeholder="6 digit number" maxlength="6"></lightning-input>
+                    </div>
+                    <div class="otp-autoclose">
+                        This page will auto close in 2min
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <lightning-button label="Close" onclick={closeModal}></lightning-button>
+                    <lightning-button label="Confirm Otp" onclick={verifyOtp}></lightning-button>
+                </footer>
+            </div>
+            <div class={backdropClass} onclick={closeModal}></div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

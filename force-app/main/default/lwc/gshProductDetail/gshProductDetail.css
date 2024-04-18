@@ -288,3 +288,19 @@
     box-shadow: 0 0 3px #0070d2;
     /* Add box shadow when focused */
 }
+
+.few-stock{
+    color: red;
+    font-size: 13px;
+}
+
+.addtocart-button {
+    width: 100%;
+    background-color: rgb(160, 160, 160);
+    color: white;
+    border: 1px solid rgb(160, 160, 160);
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+}

@@ -59,8 +59,24 @@ export default class GshProfileInfo extends LightningElement {
 
         // console.log('Name:', name);
         // console.log('Value:', value);
-
+        if (name === 'Phone') {
+            this.validatePositiveNumber(name, value);
+        }
     }
+
+    validatePositiveNumber(fieldName, fieldValue) {
+        // Convert the field value to a number
+        const postalCode = parseInt(fieldValue, 10);
+    
+        // Check if the postal code is a positive number
+        if (!isNaN(postalCode) && postalCode > 1000000000) {
+            fieldName=fieldValue;
+            console.log(postalCode,fieldName,fieldValue);
+        } else {
+            this.showToast('Failed', 'Enter a correct Phone', 'error');
+        }
+    }
+
     handleUpdateClick() {
         let updatedAccountDetails = { ...this.accountDetails };
 

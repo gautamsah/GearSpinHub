@@ -12,7 +12,7 @@
             </lightning-layout-item>
         </lightning-layout>
         <lightning-layout>
-            <lightning-layout-item size="4">
+            <lightning-layout-item size="4" class="slds-m-bottom_large">
                 <lightning-layout multiple-rows="true" vertical-align="center" class="sidebox-container">
                     <lightning-layout-item size="12" class="flexprop price-details">
                         <div>Order No:</div>
@@ -24,7 +24,7 @@
                     </lightning-layout-item>
                     <lightning-layout-item size="12" class="flexprop">
                         <div>Tracking Id:</div>
-                        <div>{customerOrder.Id}</div>
+                        <div onclick={openTrackingPage} class="tracking-link">{customerOrder.Id}</div>
                     </lightning-layout-item>
                     <lightning-layout-item size="12" class="flexprop">
                         <div class="shipping-text">Shipping Address:</div>
@@ -61,7 +61,8 @@
                     </lightning-layout-item>
                     <template if:true={showCancelButton}>
                         <lightning-layout-item size="12">
-                            <c-gsh-button button-label="Cancel Order" button-name="cancelOrder" onclickbutton={receivedOrderCancelClick} variant='buynow'></c-gsh-button>
+                            <!-- <c-gsh-button button-label="Cancel Order" button-name="cancelOrder" onclickbutton={open2Modal} variant='buynow'></c-gsh-button> -->
+                            <c-gsh-button button-label="Cancel Order" button-name="cancelOrder" onclickbutton={open2Modal} variant='buynow'></c-gsh-button>
                         </lightning-layout-item>
                     </template>
                 </lightning-layout>
@@ -82,37 +83,38 @@
                         </thead>
                         <tbody>
                             <!-- Loop through cart items -->
-                            <template for:each={orderItems} for:item="itemWithSubtotal" for:index="index">
-                                <tr key={itemWithSubtotal.id}>
+                            <template for:each={orderItems} for:item="orderItemProducts" for:index="index">
+                                <tr key={orderItemProducts.id}>
                                     <!-- Product Name -->
-                                    <td onclick={openProductPage} data-product-id={itemWithSubtotal.Product__r.Id} data-category={itemWithSubtotal.Product__r.Product_Category__c}>
+                                    <td onclick={openProductPage} data-product-id={orderItemProducts.Product__r.Id}>
                                         <div class="img-box">
-                                            <img src={itemWithSubtotal.Product__r.DisplayUrl} alt="Product Image">
+                                            <img src={orderItemProducts.Product__r.DisplayUrl} alt="Product Image">
                                         </div>
-                                        <span class="productName" onclick={openProductPage} data-product-id={itemWithSubtotal.Product__r.Id} data-category={itemWithSubtotal.Product__r.Product_Category__c}>
-                                            {itemWithSubtotal.Product__r.Name}
+                                        <span class="productName" onclick={openProductPage} data-product-id={orderItemProducts.Product__r.Id}>
+                                            {orderItemProducts.Product__r.Name}
                                         </span>
                                     </td>
                                     <!-- Color -->
-                                    <td>{itemWithSubtotal.Color__c}</td>
+                                    <td>{orderItemProducts.Color__c}</td>
                                     <!-- Size -->
-                                    <td>{itemWithSubtotal.Size__c}</td>
+                                    <td>{orderItemProducts.Size__c}</td>
                                     <!-- Quantity -->
                                     <td>
-                                        {itemWithSubtotal.Quantity__c}
+                                        {orderItemProducts.Quantity__c}
                                     </td>
                                     <!-- Price -->
-                                    <td>₹{itemWithSubtotal.Product__r.Price__c}</td>
+                                    <td>₹{orderItemProducts.Product__r.Price__c}</td>
                                     <!-- Subtotal -->
-                                    <td>₹{itemWithSubtotal.subtotal}</td>
+                                    <td>₹{orderItemProducts.subtotal}</td>
                                     <!-- Action -->
                                     <td class="quantity-column">
-                                        <template if:true={itemWithSubtotal.showAddReviewDelivered}>
-                                            <c-gsh-button button-label="Give Review" button-name="reviewOrder" onclickbutton={receivedReviewClick} data-product-id={itemWithSubtotal.Id} variant='review'></c-gsh-button>
+                                        <template if:true={orderItemProducts.showAddReviewDelivered}>
+                                            <c-gsh-button button-label="Give Review" button-name="reviewOrder" onclickbutton={receivedReviewClick} 
+                                            data-product-id={orderItemProducts.Product__c} data-product-name={orderItemProducts.Product__r.Name} variant='review'></c-gsh-button>
                                         </template>
-                                        <template if:true={itemWithSubtotal.showDoneReviewDelivered}>
-                                            <!-- <c-gsh-button button-label="Review Done" button-name="reviewOrder" onclickbutton={receivedReviewClick} data-order-id={itemWithSubtotal.Id} variant='updatecart'></c-gsh-button> -->
-                                            <c-gsh-rating-stars rating-stars={itemWithSubtotal.reviewStars} onstarratingchange={handleStarRatingChange}></c-gsh-rating-stars>
+                                        <template if:true={orderItemProducts.showDoneReviewDelivered}>
+                                            <!-- <c-gsh-button button-label="Review Done" button-name="reviewOrder" onclickbutton={receivedReviewClick} data-order-id={orderItemProducts.Id} variant='updatecart'></c-gsh-button> -->
+                                            <c-gsh-rating-stars rating-stars={orderItemProducts.reviewStars} onstarratingchange={handleStarRatingChange}></c-gsh-rating-stars>
                                         </template>
                                     </td>
                                 </tr>
@@ -120,6 +122,50 @@
                         </tbody>
                     </table>
                 </div>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout if:true={modalActive}>
+            <lightning-layout-item>
+                <div class={modalClass}>
+                    <div class="modal-content">
+                        <!-- Your content goes here -->
+                        <p class="slds-text-heading_medium">Enter Your Review:</p>
+                        <div class="review-product">
+                            <strong>Product Name: </strong> {reviewProductName}
+                        </div>
+                        <div class="review-star"><strong>Rating: </strong>
+                            <c-gsh-input-rating-stars
+                                onstarclick={handleStarRatingChange}></c-gsh-input-rating-stars>
+                        </div>
+                        <div>
+                            <div class="review-des-box"><strong>Feedback: </strong></div>
+                            <lightning-textarea name="feedback" label="" row="5"
+                                onchange={handleFeedbackChange}></lightning-textarea>
+                        </div>
+                    </div>
+                    <footer class="modal-footer">
+                        <lightning-button label="Close" onclick={closeModal}></lightning-button>
+                        <lightning-button label="Update Review" onclick={createReview}></lightning-button>
+                    </footer>
+                </div>
+                <div class={backdropClass} onclick={closeModal}></div>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout if:true={modal2Active}>
+            <lightning-layout-item>
+                <div class={modalClass}>
+                    <div class="modal-content">
+                        <div class="cancel-product">
+                            <strong>Are You Sure You Want To Cancel The Order?</strong>
+                        </div>
+                        <!-- <p class="slds-text-heading_medium">Edit Your Review:</p> -->
+                    </div>
+                    <footer class="modal-footer">
+                        <lightning-button label="Close" onclick={closeModal}></lightning-button>
+                        <lightning-button label="Cancel Order" onclick={receivedOrderCancelClick}></lightning-button>
+                    </footer>
+                </div>
+                <div class={backdropClass} onclick={closeModal}></div>
             </lightning-layout-item>
         </lightning-layout>
     </div>

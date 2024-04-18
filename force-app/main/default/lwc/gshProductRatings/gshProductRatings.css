@@ -10,7 +10,7 @@
 
 .scrollable-section {
     overflow: scroll;
-    max-height: 250px;
+    max-height: 400px;
 }
 
 /* Hide the default scrollbar */

@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import updateOrderStatusApex from '@salesforce/apex/gshOrderItems.updateOrderStatus';
 import { NavigationMixin } from 'lightning/navigation';
@@ -7,6 +7,44 @@ export default class GshProfileOrder extends NavigationMixin(LightningElement) {
     @api allCustomerOrders;
     @api allOrderItems;
     @api allProducts;
+
+    PAGE_SIZE = 5;
+
+    @track pageNumber = 1;
+    @track isFirstPage = true;
+    @track isLastPage = false;
+    displayedOrders;
+    orderId;
+    connectedCallback() {
+        if (this.orderDetails) {
+            this.updateDisplayedOrders();
+        } else if (error) {
+            console.error('Error fetching accounts:', error);
+        }
+    }
+
+    updateDisplayedOrders() {
+        const startIndex = (this.pageNumber - 1) * this.PAGE_SIZE;
+        const endIndex = startIndex + this.PAGE_SIZE;
+        this.displayedOrders = this.orderDetails.slice(startIndex, endIndex);
+        this.isFirstPage = this.pageNumber === 1;
+        this.isLastPage = endIndex >= this.orderDetails.length;
+    }
+
+    previousPage() {
+        if (this.pageNumber > 1) {
+            this.pageNumber--;
+            this.updateDisplayedOrders();
+        }
+    }
+
+    nextPage() {
+        if (!this.isLastPage) {
+            this.pageNumber++;
+            this.updateDisplayedOrders();
+        }
+    }
+
 
     get orderDetails() {
         return this.allCustomerOrders.map(order => ({
@@ -23,9 +61,9 @@ export default class GshProfileOrder extends NavigationMixin(LightningElement) {
     }
 
     receivedOrderCancelClick(event) {
-        const orderId = event.target.dataset.orderId;
+        // const orderId = event.target.dataset.orderId;
         // console.log('Order ID:', orderId);
-        this.updateOrderStatus(orderId);
+        this.updateOrderStatus(this.orderId);
     }
     receivedReviewClick(event) {
         const orderId = event.target.dataset.orderId;
@@ -55,7 +93,7 @@ export default class GshProfileOrder extends NavigationMixin(LightningElement) {
                 .then(result => {
                     // console.log('Order status updated successfully:', result);
                     if (result == 'Successful') {
-                        this.showToast('Success', 'Item Ordered Successfully', 'success');
+                        this.showToast('Success', 'Ordered Cancelled Successfully', 'success');
                         this.allCustomerOrders = this.allCustomerOrders.map(order => {
                             if (order.Id === orderToUpdate.Id) {
                                 // Update the order status
@@ -63,6 +101,7 @@ export default class GshProfileOrder extends NavigationMixin(LightningElement) {
                             }
                             return order;
                         });
+                        this.updateDisplayedOrders();
                     }
                     else {
                         this.showToast('Failed', 'An Error Occured', 'error');
@@ -78,5 +117,33 @@ export default class GshProfileOrder extends NavigationMixin(LightningElement) {
     showToast(title, message, variant) {
         const toastEvent = new ShowToastEvent({ title, message, variant });
         this.dispatchEvent(toastEvent);
+    }
+
+    get totalPage() {
+        const totalPage = Math.ceil(this.orderDetails.length / this.PAGE_SIZE);
+        console.log('Total page:', totalPage);
+        return totalPage;
+    }
+    modalClass = 'modal fade-in-close';
+    backdropClass = 'backdrop fade-in-close';
+    modalActive=false;
+    openModal() {
+        this.modalActive=true;
+        this.modalClass = 'modal fade-in-open';
+        this.backdropClass = 'backdrop fade-in-open';
+    }
+
+    closeModal() {
+        this.modalClass = 'modal fade-in-close';
+        this.backdropClass = 'backdrop fade-in-close';
+        // this.selectedReview = null;
+        // this.selectedRecordId = null;
+        // this.editStar = null;
+        // this.editFeedback = null;
+        this.modalActive=false;
+    }
+    orderCancelModalClick(event) {
+        this.orderId = event.target.dataset.orderId;
+        this.openModal();
     }
 }

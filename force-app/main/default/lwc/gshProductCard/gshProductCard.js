@@ -11,6 +11,8 @@ export default class GshProductCard extends NavigationMixin(LightningElement) {
     @api productPrice;
     @api productImage;
     @api productRating;
+    @api productConsumed;
+    @api productAvailable;
 
     // get getBackgroundImage(){
     //     return `background:url("${this.productImage}")`;
@@ -59,9 +61,18 @@ export default class GshProductCard extends NavigationMixin(LightningElement) {
             },
             state: {
                 'productId': this.productId,
-                'productCategory':this.productCategory,
+                // 'productCategory':this.productCategory,
             },
         });
+    }
+
+    get soldOutStatus(){
+        if(this.productAvailable==0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     // handleCardClick(event) {

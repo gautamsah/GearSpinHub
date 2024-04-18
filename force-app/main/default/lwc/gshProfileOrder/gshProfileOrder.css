@@ -31,3 +31,55 @@
 .order-detail-button:hover{
     color: red;
 }
+
+.pagination-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cancel-product{
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 600px;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 10px;
+    text-align: right;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: none;
+}
+
+.fade-in-open {
+    display: block;
+}
+
+.fade-in-close {
+    display: none;
+}

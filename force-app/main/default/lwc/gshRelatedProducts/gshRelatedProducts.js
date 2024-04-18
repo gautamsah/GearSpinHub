@@ -9,18 +9,18 @@ export default class GshRelatedProducts extends NavigationMixin(LightningElement
     allProducts; // Assuming allProducts is initialized with your product data
     displayedProducts;
     isLoaded = true;
-    @api productCategory;
+    // @api productCategory;
     @api productId;
 
     @wire(CurrentPageReference)
     pageRef;
     // Event listener for the cartclick event dispatched from the child component
     connectedCallback() {
-        this.productCategory = this.pageRef.state.productCategory;
+        // this.productCategory = this.pageRef.state.productCategory;
         this.productId = this.pageRef.state.productId;
 
         // this.template.addEventListener('cartclick', this.receivedCartClick.bind(this));
-        getRelatedProducts({productId:this.productId , productCategory:this.productCategory}).then((result) => {
+        getRelatedProducts({productId:this.productId}).then((result) => {
             console.log(JSON.stringify(result));
             this.allProducts = result;
             console.log(this.allProducts);

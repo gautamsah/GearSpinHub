@@ -116,7 +116,7 @@ public class gshCartItems {
         
         // Get account details
         // Account accountDetails = [SELECT Id, Name, ... FROM Account WHERE Id IN (SELECT AccountId FROM User WHERE Id = :userId)];
-        Account accountDetails = [SELECT Id, Name, ShippingStreet,  ShippingCity, ShippingState,  ShippingPostalCode, BillingStreet, BillingCity, BillingState, BillingPostalCode, Wallet_Amount__c FROM Account WHERE Id=:accId LIMIT 1];
+        Account accountDetails = [SELECT Id, Name, ShippingStreet,  ShippingCity, ShippingState,  ShippingPostalCode, BillingStreet, BillingCity, BillingState, BillingPostalCode, Wallet_Amount__c, PersonEmail  FROM Account WHERE Id=:accId LIMIT 1];
         
         result.put('cartItems', cartItems);
         result.put('accountDetails', accountDetails);

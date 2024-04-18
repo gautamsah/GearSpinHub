@@ -1,12 +1,13 @@
 import { LightningElement, wire, track, api } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { NavigationMixin } from 'lightning/navigation';
-import getAllRatings from '@salesforce/apex/gshAllProducts.getAllRatings';
+import getAllRatings from '@salesforce/apex/gshGetAllRatings.getAllRatings';
 
 export default class GshProductRatings extends NavigationMixin(LightningElement) {
     @wire(CurrentPageReference)
     pageRef;
     productId;
+    reviewExists=false;
     @track allReviews;
 
     @api dateString = "2024-03-20";
@@ -16,6 +17,7 @@ export default class GshProductRatings extends NavigationMixin(LightningElement)
         this.productId = this.pageRef.state.productId;
         getAllRatings({ productId: this.productId}).then((result) => {
             this.allReviews = result;
+            this.reviewExists = result.length > 0;
             this.formatDateFunc();
             console.log(JSON.stringify(this.allReviews));
         }).catch((error) => {

@@ -1,20 +1,124 @@
 <template>
     <lightning-layout>
-        <lightning-layout-item class="slds-text-title_caps slds-var-m-top_x-large heading">
+        <lightning-layout-item class="slds-text-title_caps slds-var-m-vertical_x-large heading">
             Track Order
         </lightning-layout-item>
     </lightning-layout>
-    <lightning-layout>
-        <lightning-layout-item size="12">
-            <lightning-input type="text" label="Enter Order ID" value={orderId} onchange={handleSearchInput}></lightning-input>
-            <lightning-button label="Search" onclick={handleSearch} class="slds-m-top_small"></lightning-button>
+    <lightning-layout vertical-align="end" horizontal-align="center">
+        <lightning-layout-item size="6" class="search-container">
+            <lightning-input type="text" label="Enter Order ID" value={orderId}
+                onchange={handleSearchInput}></lightning-input>
+        </lightning-layout-item>
+        <lightning-layout-item>
+            <button onclick={handleSearch} class="search-button">Search</button>
         </lightning-layout-item>
     </lightning-layout>
-    <lightning-layout if:true={showDetails}>
-        <lightning-layout-item size="12">
+    <lightning-layout if:true={showDetails} multiple-rows="true">
+        <!-- <lightning-layout-item size="12">
             <div class="slds-box slds-theme_default">
                 <p>Order Status: {orderDetails.Order_Status__c}</p>
             </div>
+        </lightning-layout-item> -->
+        <lightning-layout-item size="12">
+            <lightning-layout class="status-wrapper slds-var-m-vertical_xx-large slds-text-title_bold">
+                <lightning-layout-item class="icon_container" size="2">
+                    <div class='slds-var-p-bottom_medium'>Order Placed</div>
+                    <svg width="64" height="64" viewBox="0 0 207 223" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M153.9 174.003H129.35C125.2 174.003 121.85 177.353 121.85 181.503C121.85 185.653 125.2 189.003 129.35 189.003H153.9C158.05 189.003 161.4 185.653 161.4 181.503C161.4 177.353 158.05 174.003 153.9 174.003ZM97.25 174.003H12.175C8.02499 174.003 4.67499 177.353 4.67499 181.503C4.67499 185.653 8.02499 189.003 12.175 189.003H97.25C101.4 189.003 104.75 185.653 104.75 181.503C104.75 177.353 101.4 174.003 97.25 174.003Z"
+                            fill="#33CC99" />
+                        <path d="M184.963 15.9584L201.35 32.3454L186.855 46.8412L170.468 30.4539L184.963 15.9584Z"
+                            fill="#FFB89A" />
+                        <path
+                            d="M161.325 222.428H24.35C10.925 222.428 0 211.503 0 198.078V27.1527C0 13.7277 10.925 2.80265 24.35 2.80265H129.15C133.3 2.80265 136.65 6.15265 136.65 10.3027C136.65 14.4527 133.3 17.8027 129.15 17.8027H24.35C19.2 17.8027 15 22.0027 15 27.1527V198.078C15 203.228 19.2 207.428 24.35 207.428H161.325C166.475 207.428 170.675 203.228 170.675 198.078V99.3277C170.675 95.1777 174.025 91.8277 178.175 91.8277C182.325 91.8277 185.675 95.1777 185.675 99.3277V198.103C185.675 211.503 174.75 222.428 161.325 222.428Z"
+                            fill={stepOrderPlaced} />
+                        <path
+                            d="M202.325 13.9777L192.525 4.17765C186.525 -1.82235 176.25 -1.29735 169.6 5.35265L80.275 94.7027L62.15 144.353L111.8 126.253L201.15 36.9027C204.175 33.8777 206.05 29.9777 206.425 25.9027C206.875 21.3777 205.35 17.0277 202.325 13.9777ZM103.55 113.278L87.275 119.203L93.2 102.928L159.375 36.7527L169.6 47.1777L103.55 113.278ZM190.55 26.3027L180.225 36.6277L170 26.2027L180.225 15.9777C181 15.2027 181.775 15.0027 182.125 15.0027L191.525 24.4027C191.5 24.7277 191.3 25.5277 190.55 26.3027Z"
+                            fill={stepOrderPlaced} />
+                    </svg>
+
+                </lightning-layout-item>
+                <template if:true={showCancel}>
+                    <lightning-layout-item class="icon_container" size="2">
+                        <div class='slds-var-p-bottom_medium status-cancel'>Cancelled</div>
+                        <svg width="64" height="64" viewBox="0 0 428 428" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M214 0.666672C331.821 0.666672 427.333 96.1793 427.333 214C427.333 331.821 331.821 427.333 214 427.333C96.1793 427.333 0.666672 331.821 0.666672 214C0.666672 96.1793 96.1793 0.666672 214 0.666672ZM43.3333 214C43.3333 308.257 119.743 384.667 214 384.667C253.439 384.667 289.754 371.289 318.654 348.824L79.1763 109.346C56.7111 138.246 43.3333 174.561 43.3333 214ZM214 43.3333C174.561 43.3333 138.246 56.7111 109.346 79.1763L348.824 318.654C371.289 289.754 384.667 253.439 384.667 214C384.667 119.743 308.257 43.3333 214 43.3333Z"
+                                fill={stepOrderCancelled} />
+                        </svg>
+
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item class="icon_container" size="2">
+                    <div class='slds-var-p-bottom_medium'>Shipped</div>
+                    <svg width="64" height="64" viewBox="0 0 57 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M0 0.352982V2.02947V15.4413H2.51468V50.6471H54.4853V15.4412H55.3235H57V0.352982H0ZM51.1323 47.2942H5.86766V14.603H51.1323V47.2942ZM53.647 12.0883H52.8087H51.1322H5.86766H3.35298V3.70585H53.6471V12.0883H53.647Z"
+                            fill={stepOrderShipped} />
+                        <path d="M35.2059 20.8897H21.7942V25.0808H35.2059V20.8897Z" fill={stepOrderShipped} />
+                    </svg>
+
+                </lightning-layout-item>
+                <lightning-layout-item class="icon_container" size="2">
+                    <div class='slds-var-p-bottom_medium'>In Transit</div>
+                    <svg width="90" height="64" viewBox="0 0 90 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M23.8696 52.3833H55.391C56.2924 52.3833 57.1568 52.0253 57.7941 51.3879C58.4315 50.7506 58.7895 49.8861 58.7895 48.9848V5.39854C58.7895 4.49719 58.4315 3.63276 57.7941 2.99541C57.1568 2.35806 56.2924 2 55.391 2H5.39854C4.49719 2 3.63276 2.35806 2.99541 2.99541C2.35806 3.63276 2 4.49719 2 5.39854V48.9508C2 49.8521 2.35806 50.7166 2.99541 51.3539C3.63276 51.9913 4.49719 52.3493 5.39854 52.3493H9.81663"
+                            stroke={stepOrderInTransit} stroke-width="3" />
+                        <path
+                            d="M65.9775 52.3833H58.9425V17.2084H75.6123C75.8578 17.2084 76.1003 17.2616 76.3232 17.3643C76.5462 17.4669 76.7442 17.6167 76.9038 17.8032L87.6092 30.6327C87.8625 30.9384 88.0008 31.3232 88 31.7202V52.3833H80.7101"
+                            stroke={stepOrderInTransit} stroke-width="3" />
+                        <path
+                            d="M17.0385 62.2391C21.2054 62.2391 24.5833 58.8155 24.5833 54.5924C24.5833 50.3692 21.2054 46.9456 17.0385 46.9456C12.8717 46.9456 9.49377 50.3692 9.49377 54.5924C9.49377 58.8155 12.8717 62.2391 17.0385 62.2391Z"
+                            stroke={stepOrderInTransit} stroke-width="3" />
+                        <path
+                            d="M73.1994 62.2391C77.3662 62.2391 80.7441 58.8155 80.7441 54.5924C80.7441 50.3692 77.3662 46.9456 73.1994 46.9456C69.0325 46.9456 65.6546 50.3692 65.6546 54.5924C65.6546 58.8155 69.0325 62.2391 73.1994 62.2391Z"
+                            stroke={stepOrderInTransit} stroke-width="3" />
+                    </svg>
+                </lightning-layout-item>
+                <lightning-layout-item class="icon_container" size="2">
+                    <div class='slds-var-p-bottom_medium'>Out for Delivery</div>
+                    <svg width="64" height="64" viewBox="0 0 200 176" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M174.91 1.1457C160.697 -1.02852 147.321 7.32695 142.649 20.3754H125.447V35.1797H141.424C143.46 47.4344 153.023 57.584 165.977 59.5687C182.101 62.0359 197.181 50.9586 199.657 34.8262C202.12 18.6934 191.043 3.61289 174.91 1.1457Z"
+                            fill={stepOrderOutForDelivery} />
+                        <path
+                            d="M63.5215 120.118C63.5215 117.43 61.343 115.248 58.6512 115.248H37.5625C34.8707 115.248 32.6926 117.43 32.6926 120.118C32.6926 122.801 34.8707 124.988 37.5625 124.988H58.6516C61.343 124.988 63.5215 122.801 63.5215 120.118Z"
+                            fill={stepOrderOutForDelivery} />
+                        <path
+                            d="M153.515 80.9551L111.044 120.989L96.2137 124.66V90.8246H0V175.198H96.2137V151.974L110.099 149.735C116.72 148.79 121.582 147.121 127.418 143.868L145.505 134.404V175.198H197.237V93.7922C197.237 67.1477 167.194 67.0742 153.515 80.9551ZM84.3734 163.357H11.841V102.665H84.3734V127.589L70.1473 131.109C63.9098 132.825 60.1051 139.123 61.4855 145.443L61.602 145.93C62.9605 152.146 68.8875 156.257 75.1898 155.36L84.3734 153.88V163.357Z"
+                            fill={stepOrderOutForDelivery} />
+                    </svg>
+
+                </lightning-layout-item>
+                <lightning-layout-item class="icon_container" size="2">
+                    <div class='slds-var-p-bottom_medium'>Delivered</div>
+                    <svg width="64" height="64" viewBox="0 0 226 227" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M225.628 36.4461C225.686 35.7605 225.713 35.0729 225.713 34.3871C225.713 15.5083 210.354 0.1492 191.475 0.1492C191.087 0.1492 190.71 0.164317 189.832 0.202866L35.698 0.192032C35.2526 0.170616 34.8003 0.1492 34.3314 0.1492C15.4823 0.1492 0.148932 15.478 0.148932 34.3423L0.196298 37.1017H0.119202L0.217714 187.007L0.176899 192.142C0.176899 210.794 15.3495 225.967 33.9991 225.967C34.4193 225.967 35.7645 225.907 35.788 225.907L189.211 225.928C189.963 226.018 190.777 226.046 191.617 226.046C200.641 226.046 209.131 222.53 215.522 216.144C221.915 209.759 225.435 201.282 225.435 192.26L225.398 189.233H225.63L225.628 36.4458V36.4461ZM34.734 211.256L34.0827 211.205C23.3687 211.205 14.8975 202.421 14.799 191.223V67.8175H210.957L211.073 190.062L210.85 190.783C210.715 191.246 210.648 191.685 210.648 192.086C210.648 202.26 202.698 210.672 192.545 211.235L189.82 211.391V211.259L34.734 211.256ZM210.954 53.142H14.8139L14.7194 36.5297L14.9335 35.793C15.0646 35.3345 15.1306 34.8784 15.1306 34.471C15.1306 23.8295 23.8801 15.155 34.828 15.1187L34.9414 15.1016L190.693 15.1061L191.364 15.1573C202.029 15.1573 210.705 23.8343 210.705 34.4992C210.705 34.8333 210.755 35.1762 210.87 35.6411L210.954 35.8638V53.142H210.954Z"
+                            fill={stepOrderDelivered} />
+                        <path
+                            d="M159.78 102.78C157.794 102.78 155.922 103.555 154.51 104.967L98.2159 161.263L71.3267 134.376C69.9298 132.964 68.0639 132.186 66.0755 132.186C64.087 132.186 62.2148 132.962 60.8051 134.369C59.3997 135.76 58.6197 137.62 58.6131 139.608C58.6088 141.6 59.3866 143.477 60.8026 144.897L92.9392 177.036C94.3426 178.437 96.2171 179.208 98.2159 179.208C100.213 179.208 102.087 178.437 103.49 177.034L165.029 115.495C166.434 114.106 167.214 112.249 167.221 110.259C167.225 108.258 166.445 106.376 165.034 104.971C163.635 103.557 161.769 102.78 159.78 102.78H159.78Z"
+                            fill={stepOrderDelivered} />
+                    </svg>
+
+                </lightning-layout-item>
+            </lightning-layout>
         </lightning-layout-item>
+        <lightning-layout-item size="12" class="slds-var-m-bottom_x-large">
+            <lightning-progress-indicator current-step={progressBar} type="path" variant="base">
+                <lightning-progress-step label="Order Placed" value="s1"></lightning-progress-step>
+                <template if:true={showCancel}>
+                    <lightning-progress-step label="Cancelled" value="s6"></lightning-progress-step>
+                </template>
+                <lightning-progress-step label="Shipped" value="s2"></lightning-progress-step>
+                <lightning-progress-step label="In Transit" value="s3"></lightning-progress-step>
+                <lightning-progress-step label="Out for Delivery" value="s4"></lightning-progress-step>
+                <lightning-progress-step label="Delivered" value="s5"></lightning-progress-step>
+            </lightning-progress-indicator>
+        </lightning-layout-item>
+
+
     </lightning-layout>
 </template>

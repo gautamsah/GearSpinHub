@@ -10,8 +10,8 @@
                             disabled={ProfileNotEditing} onchange={handleInputChange}></lightning-input></p>
                     <p><lightning-input label="Email Id:" name="Email" value={Email} type="email"
                             disabled={ProfileNotEditing} onchange={handleInputChange}></lightning-input></p>
-                    <p><lightning-input label="Phone No:" name="Phone" value={Phone} type="phone"
-                            disabled={ProfileNotEditing} onchange={handleInputChange}></lightning-input></p>
+                    <p><lightning-input label="Phone No:" name="Phone" value={Phone} type="tel" maxlength="10"
+                            disabled={ProfileNotEditing} onchange={handleInputChange} ></lightning-input></p>
                     <p><lightning-select name="Gender" label="Gender:" value={Gender} options={options} onchange={handleChange} disabled={ProfileNotEditing} ></lightning-select></p>
                 </div>
                 <template if:false={ProfileNotEditing}>

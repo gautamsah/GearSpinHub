@@ -26,7 +26,7 @@
         </lightning-layout-item>
     </lightning-layout>
     <!-- <lightning-layout class="slds-gutters_x-small wrapper" multiple-rows=""> -->
-    <lightning-layout class="wrapper" multiple-rows="true" vertical-align="center">
+    <lightning-layout class="wrapper slds-border_bottom" multiple-rows="true" vertical-align="center">
         <!-- <lightning-layout-item size="6" class="slds-grid_vertical-align-center product-image"> -->
         <lightning-layout-item size="6" class="product-image" onmousemove={trackMouse} onmouseleave={resetZoom}>
             <img src={imgUrl} alt="Product Image" style={imageStyle}>
@@ -114,13 +114,13 @@
                     {productDetailDesc}
                 </lightning-layout-item>
                 <lightning-layout-item size="12" class="product-price">₹{productPrice}</lightning-layout-item>
-                <lightning-layout-item size="12" class="slds-var-m-bottom_medium color-selector">
+                <lightning-layout-item size="12" class="slds-var-m-bottom_medium color-selector" lwc:if={getAddtoCartButton}>
                     <div class="colors-heading">Available Colors: </div>
                     <div class="color-dot red" data-color="Red" onclick={handleColorClick}></div>
                     <div class="color-dot blue" data-color="Blue" onclick={handleColorClick}></div>
                     <div class="color-dot green" data-color="Green" onclick={handleColorClick}></div>
                 </lightning-layout-item>
-                <lightning-layout-item size="12" class="slds-var-m-bottom_medium">
+                <lightning-layout-item size="12" class="slds-var-m-bottom_medium" lwc:if={getAddtoCartButton}>
                     <div class="size-heading">Available Sizes: </div>
                     <select class="size-selector" onchange={handleSelectChange}>
                         <option value="none">-- Select --</option>
@@ -130,7 +130,7 @@
                         <option value="XL">XL</option>
                     </select>
                 </lightning-layout-item>
-                <lightning-layout-item size="12" class="slds-grid slds-gutters">
+                <lightning-layout-item size="12" class="slds-grid slds-gutters" lwc:if={getAddtoCartButton}>
                     <div class="slds-col quantity-wrapper">
                         <div class="arrow-down" data-content="-" onclick={decreaseQuantity}></div>
                         <input type="number" class="product-quantity" value={productQuantity} min="0"
@@ -139,6 +139,12 @@
                     </div>
                     <c-gsh-button class="slds-col" button-label="Add to Cart" button-name="add_to_cart"
                         onclickbutton={receivedCartClick} variant='addtocart'></c-gsh-button>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class="slds-grid slds-gutters" lwc:else>
+                    <button class="addtocart-button" disabled>Out Of Stock</button>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" if:true={showQuantity} class="few-stock">
+                    Hurry Only few stocks left!!!
                 </lightning-layout-item>
             </lightning-layout>
         </lightning-layout-item>

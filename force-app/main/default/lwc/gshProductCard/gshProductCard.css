@@ -28,6 +28,7 @@
     background: white;
     padding: 0 24px;
     overflow: hidden; /* Hide any overflowing content */
+    position: relative;
 }
 
 .card_img_container:hover {
@@ -35,6 +36,17 @@
     /* transform: perspective(1000px) rotateY(10deg); */
     /* transform: scale(1.2); */
 }
+
+.sold_out_label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 8px 0 8px 0;
+}
+
 
 .pr_category {
     /* border: 1px solid blue; */

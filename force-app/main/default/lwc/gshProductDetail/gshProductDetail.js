@@ -93,7 +93,8 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
         if (this.productQuantity > 0) {
             this.productQuantity--;
         } else {
-            this.productQuantity = maxAllowed > 0 ? maxAllowed - 1 : 0;
+            // this.productQuantity = maxAllowed > 0 ? maxAllowed - 1 : 0;
+            this.productQuantity = 0;
         }
     }
 
@@ -206,5 +207,22 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
                 'searchQuery': this.productCategory,
             },
         });
+    }
+
+    get showQuantity(){
+        if(this.productStock<10 && this.productStock>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    get getAddtoCartButton(){
+        if(this.productStock==0){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }
