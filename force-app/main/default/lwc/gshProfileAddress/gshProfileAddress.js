@@ -191,6 +191,7 @@ export default class GshProfileAddress extends LightningElement {
 
     get stateOptions() {
         return [
+            { label: '--Select State--', value: '' },
             { label: 'Andaman and Nicobar Islands', value: 'Andaman and Nicobar Islands' },
             { label: 'Andhra Pradesh', value: 'Andhra Pradesh' },
             { label: 'Arunachal Pradesh', value: 'Arunachal Pradesh' },

@@ -4,12 +4,15 @@
 *   @Author Name 	:	Gautam Sah (Horizontal Digital)
 */
 public without sharing class gshPortalUserRegisteration {
-    // @AuraEnabled(cacheable=false)
-    // public static String registerUser(String firstName, String lastName, String email){
-        //     system.debug(firstName + lastName + email);
-        //     return firstName + lastName + email;
-        // }
-        
+    
+    /********************************************************************************
+     * Method       : registerUser
+     * Description  : To register User
+     * Parameters   : firstName - The first name of the user
+     *                lastName - The last name of the user
+     *                email - The email address of the user
+     * Returns      : String - The registration status message
+     ********************************************************************************/
     @AuraEnabled
     public static String registerUser(String firstName, String lastName, String email){
         Savepoint rollbackStartPoint = Database.setSavepoint();
@@ -26,9 +29,9 @@ public without sharing class gshPortalUserRegisteration {
                     Profile profile = [SELECT Id, Name FROM Profile WHERE Name = 'GSH Community User'];
                     Id profileId = profile.Id;
                     System.debug('Profile Id : '+profileId);
-                    // String response = createCommUser(firstName , lastName , email , contactId, profileId);
+                    String response = createCommUser(firstName , lastName , email , contactId, profileId);
 
-                    String response = 'Registered Successfully';
+                    // String response = 'Registered Successfully';
 
                     System.debug('Response : '+response);
                     if(response == 'Registeration Failed'){
@@ -58,7 +61,14 @@ public without sharing class gshPortalUserRegisteration {
     }
 }
 
-
+    /********************************************************************************
+     * Method       : getUserAccContactId
+     * Description  : To retrieve the contact Id associated with the user account
+     * Parameters   : firstName - The first name of the user
+     *                lastName - The last name of the user
+     *                emailId - The email address of the user
+     * Returns      : String - The contact Id
+     ********************************************************************************/
     public static String getUserAccContactId(String firstName , String lastName, String emailId ){
         Id personAccountRecordTypeId =  [SELECT Id FROM RecordType WHERE SobjectType ='Account' AND IsActive =True AND DeveloperName ='PersonAccount' LIMIT 1].Id;
         System.debug('personAccountRecordTypeId : '+personAccountRecordTypeId);
@@ -69,6 +79,16 @@ public without sharing class gshPortalUserRegisteration {
         return userAccountContactId;
     }
 
+    /********************************************************************************
+     * Method       : createCommUser
+     * Description  : To create a community user with the provided details
+     * Parameters   : firstName - The first name of the user
+     *                lastName - The last name of the user
+     *                emailId - The email address of the user
+     *                contactId - The contact Id associated with the user
+     *                profileId - The profile Id of the community user
+     * Returns      : String - The registration status message
+     ********************************************************************************/
     public static String createCommUser(String firstName , String lastName , String emailId ,  String contactId, String profileId){
         try{
             system.debug(UserInfo.getLocale());

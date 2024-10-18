@@ -1,0 +1,64 @@
+To implement automatic refreshing of Apex data after 5 minutes, you can use the setInterval JavaScript function to periodically call the fetchAccounts method. Here's the modified code:
+
+javascript
+Copy code
+import { LightningElement } from 'lwc';
+import { refreshApex } from '@salesforce/apex';
+import getAccounts from '@salesforce/apex/AccountController.getAccounts';
+import deleteAccount from '@salesforce/apex/AccountController.deleteAccount';
+
+export default class AccountTable extends LightningElement {
+    accounts;
+    error;
+    wiredAccountResult;
+    intervalId;
+
+    // Function to fetch accounts imperatively
+    fetchAccounts() {
+        getAccounts()
+            .then(result => {
+                this.accounts = result;
+                this.error = undefined;
+            })
+            .catch(error => {
+                this.accounts = undefined;
+                this.error = error;
+            });
+    }
+
+    // Function to refresh the account data
+    refreshData() {
+        this.fetchAccounts();
+    }
+
+    // Load accounts when the component initializes and start the auto-refresh interval
+    connectedCallback() {
+        this.fetchAccounts();
+        this.intervalId = setInterval(() => {
+            this.fetchAccounts();
+        }, 300000); // 5 minutes in milliseconds
+    }
+
+    // Stop the auto-refresh interval when the component is disconnected
+    disconnectedCallback() {
+        clearInterval(this.intervalId);
+    }
+
+    handleDelete(event) {
+        const accountId = event.target.dataset.accountId;
+        deleteAccount({ accountId })
+            .then(() => {
+                // Refresh the account data after deletion
+                this.refreshData();
+            })
+            .catch((error) => {
+                // Handle the error if deletion fails
+            });
+    }
+}
+In this modification:
+
+I added a new property called intervalId to store the ID of the interval timer.
+In the connectedCallback lifecycle hook, I started an interval timer using setInterval to call the fetchAccounts method every 5 minutes (300,000 milliseconds).
+In the disconnectedCallback lifecycle hook, I stopped the interval timer using clearInterval to prevent memory leaks when the component is removed from the DOM.
+With this setup, the fetchAccounts method will be called automatically every 5 minutes to refresh the account data.

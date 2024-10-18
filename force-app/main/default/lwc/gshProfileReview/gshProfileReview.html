@@ -1,4 +1,9 @@
 <template>
+    <lightning-layout horizontal-align="center">
+        <div class="no-content" if:true={showNoContentText}>
+            You haven't reviewed anything!!
+        </div>
+    </lightning-layout>
     <lightning-layout>
         <lightning-layout-item size="12">
             <template for:each={allCustomerReviews} for:item="review">

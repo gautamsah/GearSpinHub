@@ -1,3 +1,8 @@
+.no-content{
+    font-size: 24px;
+    text-align: center;
+}
+
 .review-star{
 display: flex;
 margin-bottom: 8px;

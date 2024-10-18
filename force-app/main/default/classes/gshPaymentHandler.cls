@@ -112,23 +112,5 @@ public without sharing class gshPaymentHandler {
             }
         }
         return 'Error';
-        // String recipientEmail = UserInfo.getUserEmail();
-        // Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        // String[] toAddresses = new String[] { recipientEmail };
-        // mail.setToAddresses(toAddresses);
-        // mail.setSubject('Your OTP for Account Balance ' +transactionType);
-        
-        // String htmlBody = '<html><body>';
-        // htmlBody += '<p style="font-family: Arial, sans-serif; font-size: 16px;">';
-        // htmlBody += 'Your OTP for Account Balance ' +transactionType ' is: <strong>' + otp + '</strong>';
-        // htmlBody += '</p>';
-        // htmlBody += '</body></html>';
-        
-        // mail.setHtmlBody(htmlBody);
-        
-        // Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
-        // storedOtp=null;
-        // storedAmount=null;
-        
     }
 }

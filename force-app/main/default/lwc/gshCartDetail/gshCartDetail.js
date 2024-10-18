@@ -18,7 +18,7 @@ export default class GshCartDetail extends NavigationMixin(LightningElement) {
     isLoaded = true;
     orderTotal = 0;
     grandTotal = 0;
-    shippingCharges = 100;
+    shippingCharges;
     isshippingChargesFree = false;
 
     connectedCallback() {
@@ -27,6 +27,12 @@ export default class GshCartDetail extends NavigationMixin(LightningElement) {
             this.accountDetails = result['accountDetails'];
             this.walletBalance = parseFloat(this.accountDetails.Wallet_Amount__c);
             this.isLoaded = false;
+            if (this.cartItems.length === 0) {
+                this.shippingCharges=0;
+            }
+            else{
+                this.shippingCharges=100;
+            }
             this.calculateSubtotals();
             this.calculateGrandTotals();
         })
@@ -167,6 +173,7 @@ export default class GshCartDetail extends NavigationMixin(LightningElement) {
         generateAndSendOTP()
             .then(result => {
                 this.otp = result;
+                console.log("otp ", this.otp);
                 this.showToast('Success', 'Otp Generated Successfully', 'success');
                 setTimeout(this.closeModal.bind(this), 120000);
                 let countdownInterval = setInterval(() => {

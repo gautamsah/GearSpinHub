@@ -45,14 +45,15 @@ export default class GshProfileWallet extends LightningElement {
     performTransaction() {
         const amount = parseInt(this.transactionAmount);
         this.openModal();
-        this.generateOtp();
-        
+        this.generateOtp(amount);
+
     }
-    generateOtp(){
+    generateOtp(amount) {
         this.genButtonDisabled = true;
         updateBalanceOtp({ transactionType: this.transactionButtonLabel, amount: amount })
             .then(result => {
-                if (result == 'Successful') {
+                console.log('Result from updateBalanceOtp:', result);
+                if (result === 'Successful') {
                     this.showToast('Success', 'Otp Sent to your email', 'success');
                     setTimeout(this.closeModal.bind(this), 120000);
                     let countdownInterval = setInterval(() => {
@@ -63,16 +64,18 @@ export default class GshProfileWallet extends LightningElement {
                             this.countdown = 30;
                         }
                     }, 1000);
-                }
-                else {
+                } else {
                     this.showToast('Failed', 'An Error Occured', 'error');
                     this.closeModal();
                 }
             })
             .catch(error => {
                 console.error('Error generating OTP:', error);
+                this.showToast('Failed', 'An Error Occurred', 'error');
+                this.closeModal();
             });
     }
+
     showToast(title, message, variant) {
         const toastEvent = new ShowToastEvent({ title, message, variant });
         this.dispatchEvent(toastEvent);
@@ -107,8 +110,7 @@ export default class GshProfileWallet extends LightningElement {
                             this.closeModal();
                         }
                         else {
-                            this.showToast('Failed', 'An Error Occured from Apex', 'error');
-                            this.closeModal();
+                            this.showToast('Failed', 'Incorrect Otp', 'error');
                         }
                     }
                     else {

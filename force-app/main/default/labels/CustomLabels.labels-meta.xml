@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>chatGPTAPIKey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>API Key for Chat GPT Integration</shortDescription>
+        <value>sk-proj-nVESr5HoEfk8GWDnKpIMT3BlbkFJlizvOqpL609NjctPlBXF</value>
+    </labels>
+    <labels>
+        <fullName>aboutUsOurStoryLine1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>about us</shortDescription>
+        <value>In the heart of a city pulsing with motorcycle culture, Gear Spin Hub was born from the passion of two riders, Alex and Sam. Fueled by their love for motorcycles and a desire to revolutionize the gear-buying experience, they embarked on a mission to create a platform dedicated to motorcycle jackets, boots, gloves, and helmets.</value>
+    </labels>
+    <labels>
+        <fullName>aboutUsOurStoryLine2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>about us</shortDescription>
+        <value>Facing challenges head-on, Alex and Sam curated a collection of premium gear, handpicked for quality and style. But Gear Spin Hub wasn&apos;t just a marketplace—it was a community. With a blog full of riding tips and gear reviews, and an online forum for riders to connect, Gear Spin Hub became a sanctuary for riders worldwide.</value>
+    </labels>
+    <labels>
+        <fullName>aboutUsOurStoryLine3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>about us</shortDescription>
+        <value>Today, Gear Spin Hub stands as a beacon of excellence, a testament to Alex and Sam&apos;s unwavering dedication. But for them, the journey continues, fueled by the wind in their faces and the endless stretch of open road ahead. Gear Spin Hub: Where Riders Unite.</value>
+    </labels>
+    <labels>
+        <fullName>aboutUsOurStoryTagLine</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>about us</shortDescription>
+        <value>Gear Spin Hub: Where Riders Unite</value>
+    </labels>
+    <labels>
+        <fullName>bannerOffers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>banner</shortDescription>
+        <value>Hot Offers</value>
+    </labels>
+    <labels>
+        <fullName>bannerOffersTagline</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>banner</shortDescription>
+        <value>Discounts up to 90%</value>
+    </labels>
+    <labels>
+        <fullName>bannerSafety</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>banner</shortDescription>
+        <value>100% Safety</value>
+    </labels>
+    <labels>
+        <fullName>bannerSafetyTagline</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>banner</shortDescription>
+        <value>Only secure payments</value>
+    </labels>
+    <labels>
+        <fullName>bannerShipping</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>banner</shortDescription>
+        <value>Free Shipping</value>
+    </labels>
+    <labels>
+        <fullName>bannerShippingTagline</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>banner</shortDescription>
+        <value>For orders from ₹5000</value>
+    </labels>
+    <labels>
+        <fullName>bannerSupport</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>banner</shortDescription>
+        <value>Support 24/7</value>
+    </labels>
+    <labels>
+        <fullName>bannerSupportTagline</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>banner</shortDescription>
+        <value>Call us anytime</value>
+    </labels>
+    <labels>
+        <fullName>gshFooterCompanyDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>footer</shortDescription>
+        <value>Our Mission To Provide The BEST MotorBike Gears Browse our range of Gore-Tex motorcycle clothing including Rukka, Dainese, Richa, Alpinestars, and more</value>
+    </labels>
+    <labels>
+        <fullName>gshFooterCopyrightBanner</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>footer</shortDescription>
+        <value>@Copyright © 2024, All Right Reserved GearSpinHub</value>
+    </labels>
+    <labels>
+        <fullName>gshFooterSubscribeDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>footer</shortDescription>
+        <value>Dont miss to subscribe to our new product launches, kindly enter your mail id below.</value>
+    </labels>
+    <labels>
+        <fullName>headingAboutUs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>heading</shortDescription>
+        <value>About Us</value>
+    </labels>
+    <labels>
+        <fullName>headingOurStory</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>heading</shortDescription>
+        <value>OUR STORY</value>
+    </labels>
+</CustomLabels>

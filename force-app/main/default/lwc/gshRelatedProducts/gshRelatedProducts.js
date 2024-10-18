@@ -3,7 +3,8 @@ import getRelatedProducts from '@salesforce/apex/gshAllProducts.getRelatedProduc
 import { NavigationMixin } from 'lightning/navigation';
 import { CurrentPageReference } from 'lightning/navigation';
 import userId from "@salesforce/user/Id";
-
+import gshRelatedProducts from './gshRelatedProducts.html';
+import gshRelatedProductsStencil from './gshRelatedProductsStencil.html';
 export default class GshRelatedProducts extends NavigationMixin(LightningElement) {
     userId = userId; // Replace 'yourUserId' with the actual user ID
     allProducts; // Assuming allProducts is initialized with your product data
@@ -11,6 +12,14 @@ export default class GshRelatedProducts extends NavigationMixin(LightningElement
     isLoaded = true;
     // @api productCategory;
     @api productId;
+
+    //new
+    isLoading = true;
+
+    render() {
+        console.log("render function called",this.isLoading);
+        return this.isLoading ? gshRelatedProductsStencil : gshRelatedProducts;
+    }
 
     @wire(CurrentPageReference)
     pageRef;
@@ -25,7 +34,8 @@ export default class GshRelatedProducts extends NavigationMixin(LightningElement
             this.allProducts = result;
             console.log(this.allProducts);
             this.displayedProducts = this.allProducts.slice(0, 4);
-            this.isLoaded = false;
+            // this.isLoaded = false;
+            this.isLoading = false;
         })
             .catch((error) => {
                 console.log(error);

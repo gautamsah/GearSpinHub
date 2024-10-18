@@ -2,7 +2,8 @@ import { LightningElement, wire, track, api } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { NavigationMixin } from 'lightning/navigation';
 import getAllRatings from '@salesforce/apex/gshGetAllRatings.getAllRatings';
-
+import gshProductRatings from './gshProductRatings.html';
+import gshProductRatingsStencil from './gshProductRatingsStencil.html';
 export default class GshProductRatings extends NavigationMixin(LightningElement) {
     @wire(CurrentPageReference)
     pageRef;
@@ -13,6 +14,14 @@ export default class GshProductRatings extends NavigationMixin(LightningElement)
     @api dateString = "2024-03-20";
     formattedDate;
 
+    //new
+    isLoading = true;
+
+    render() {
+        console.log("render function called",this.isLoading);
+        return this.isLoading ? gshProductRatingsStencil : gshProductRatings;
+    }
+
     connectedCallback() {
         this.productId = this.pageRef.state.productId;
         getAllRatings({ productId: this.productId}).then((result) => {
@@ -20,6 +29,7 @@ export default class GshProductRatings extends NavigationMixin(LightningElement)
             this.reviewExists = result.length > 0;
             this.formatDateFunc();
             console.log(JSON.stringify(this.allReviews));
+            this.isLoading = false;
         }).catch((error) => {
             console.log(error);
         })

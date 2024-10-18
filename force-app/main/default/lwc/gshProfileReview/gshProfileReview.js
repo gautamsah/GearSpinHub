@@ -5,7 +5,6 @@ import updateReview from '@salesforce/apex/gshOrderItems.updateReview';
 export default class GshProfileReview extends LightningElement {
     @api allCustomerReviews;
     @api allProducts;
-    
     @track modalClass = 'modal fade-in-close';
     @track backdropClass = 'backdrop fade-in-close';
     selectedRecordId;
@@ -13,6 +12,12 @@ export default class GshProfileReview extends LightningElement {
     editStar;
     editFeedback;
     modalActive=false;
+
+    get showNoContentText(){
+        if (this.allCustomerReviews.length==0) {
+            return true;
+        }
+    }
 
     receivedEditReviewClick(event) {
         this.selectedRecordId = event.target.dataset.reviewId;

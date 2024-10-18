@@ -20,6 +20,11 @@ export default class GshProfileSupport extends LightningElement {
         }
     }
 
+    get showEmpty(){
+        if (this.allCases.length==0) {
+            return true;
+        }
+    }
     formattedDate(dateStr) {
         if (!dateStr) return ''; // Handle case when dateStr is null or undefined
         const date = new Date(dateStr);

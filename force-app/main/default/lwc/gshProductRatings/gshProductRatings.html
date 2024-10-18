@@ -13,7 +13,7 @@
         </lightning-layout-item>
     </lightning-layout>
     <lightning-layout if:true={reviewExists} class="slds-m-bottom_large slds-border_bottom slds-var-p-horizontal_medium">
-        <lightning-layout-item class="scrollable-section">
+        <lightning-layout-item class="scrollable-section slds-var-p-right_large">
             <lightning-layout multiple-rows="true" class="slds-var-p-vertical_medium" for:each={allReviews} for:item="review" key={review.id}>
                 <lightning-layout-item size="1" class="img-container">
                     <img class="img-dp" src={review.Customer_Name__r.Profile_Pic__c} alt="Profile Pic">

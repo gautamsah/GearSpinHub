@@ -6,6 +6,8 @@ import getProductPageData from '@salesforce/apex/gshAllProducts.getProductPageDa
 import addToCart from '@salesforce/apex/gshCartItems.addToCartDetailPage';
 import { getRecord } from 'lightning/uiRecordApi';
 import userId from "@salesforce/user/Id";
+import gshProductDetail from './gshProductDetail.html';
+import gshProductDetailStencil from './gshProductDetailStencil.html';
 
 export default class GshProductDetail extends NavigationMixin(LightningElement) {
     @track productQuantity = 0;
@@ -27,11 +29,19 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
     @track cartQuantity = 0;
     cartProduct;
     isLoaded = true;
+    //new
+    isLoading = true;
 
+    render() {
+        console.log("render function called",this.isLoading);
+        return this.isLoading ? gshProductDetailStencil : gshProductDetail;
+    }
 
     @wire(CurrentPageReference)
     pageRef;
     connectedCallback() {
+        // this.render();
+        // setTimeout(() => {this.isLoading = false;}, 5000);
         this.productId = this.pageRef.state.productId;
         getProductPageData({ userId: this.userIdvar, productId: this.productId }).then((result) => {
             console.log(JSON.stringify(result));
@@ -42,7 +52,8 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
             //     this.cartProduct.Quantity__c = 0;
             // }
             console.log(this.productStock-this.cartProduct.Quantity__c);
-            this.isLoaded = false;
+            // this.isLoaded = false;
+            this.isLoading = false;
             this.setValues();
         })
             .catch((error) => {
@@ -59,6 +70,14 @@ export default class GshProductDetail extends NavigationMixin(LightningElement) 
     //     });
     // }
 
+    get cartIconVisible(){
+        if (this.userIdvar) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     setValues() {
         if (this.productDetail && this.productDetail.length > 0) {

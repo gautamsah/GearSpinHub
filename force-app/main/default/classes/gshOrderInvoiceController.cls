@@ -59,9 +59,9 @@ public without sharing class gshOrderInvoiceController {
     @AuraEnabled
     public static string generatePDF(String orderId) {
         try {
-            Customer_Order__c order = [SELECT Id, Name, Customer_Name__c FROM Customer_Order__c WHERE Id = :orderId];
+            Customer_Order__c order = [SELECT Id, Name, Customer_Name__c FROM Customer_Order__c WHERE Id = :orderId LIMIT 1];
             
-            Account relatedAccount = [SELECT Id, PersonEmail FROM Account WHERE Id = :order.Customer_Name__c];
+            Account relatedAccount = [SELECT Id,Name, PersonEmail FROM Account WHERE Id = :order.Customer_Name__c LIMIT 1];
             String recipientEmail = relatedAccount.PersonEmail;
             
             PageReference pdfPage = Page.gshOrderInvoice;
@@ -77,7 +77,11 @@ public without sharing class gshOrderInvoiceController {
             attachment.setFileName('Invoice.pdf');
             attachment.setBody(pdfBlob);
             email.setFileAttachments(new List<Messaging.EmailFileAttachment>{attachment});
+            String htmlBody = '<html><body>';
+            htmlBody += '<p><span style="font-size: 14px;">Hello </span><strong style="font-size: 14px;">'+ relatedAccount.Name +'</strong><span style="font-size: 14px;">,</span></p><p><br></p><p><span style="font-size: 14px;">Congratulations!!! Your Order has been placed successfully.</span></p><p>Click here to track order -&gt; <a href="https://gautamsah-dev-ed.develop.my.site.com/gearspinhub/s/order-tracking-page?orderId='+order.Id+'" rel="noopener noreferrer" target="_blank">Track Order</a></p><p>Your Tracking Code is <strong>'+order.Id+'</strong></p><p><br></p><p><br></p><p><span style="font-size: 14px;">Thank you for choosing </span><strong style="font-size: 14px;">Gear Spin Hub</strong><span style="font-size: 14px;"> with us.</span></p>';
+            htmlBody += '</body></html>';
             
+            email.setHtmlBody(htmlBody);
             Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{email});
             
             return 'Successful';

@@ -146,4 +146,13 @@ export default class GshProfileOrder extends NavigationMixin(LightningElement) {
         this.orderId = event.target.dataset.orderId;
         this.openModal();
     }
+
+    get showPagination(){
+        if(this.allCustomerOrders.length==0){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 }
